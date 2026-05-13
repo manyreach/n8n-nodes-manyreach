@@ -1,7 +1,7 @@
 import { IExecuteFunctions , IDataObject} from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { ensurePagination } from '../../helpers/validation';
-import { normalizeManyResponse } from '../../helpers/response.convert';
+import { normalizeManyResponse, simplifyItems } from '../../helpers/response.convert';
 
 export async function getSenders(this: IExecuteFunctions, index: number) {
 
@@ -27,5 +27,17 @@ export async function getSenders(this: IExecuteFunctions, index: number) {
 
     const response = await apiRequest.call(this, 'GET', '/senders', {}, qs);
 
-   return normalizeManyResponse(response);
+    const simplify = this.getNodeParameter('simplify', index, true) as boolean;
+    const normalized = normalizeManyResponse(response);
+    return simplify
+        ? simplifyItems(normalized, [
+              'id',
+              'fromEmail',
+              'fromName',
+              'dailySendingLimit',
+              'warmup',
+              'status',
+              'createdAt',
+          ])
+        : normalized;
 }

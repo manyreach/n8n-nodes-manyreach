@@ -160,6 +160,16 @@ export const sequenceFields: INodeProperties[] = [
         ],
     },
     createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'sequence',
+        operations: ['getMany'],
+    }),
+
+    createField({
         displayName: 'Update Fields',
         name: 'updateFields',
         type: 'collection',

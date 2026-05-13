@@ -133,6 +133,16 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'sender',
+        operations: ['getMany'],
+    }),
+
+    createField({
         displayName: 'Email',
         name: 'email',
         type: 'string',

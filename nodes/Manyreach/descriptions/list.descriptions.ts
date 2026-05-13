@@ -51,7 +51,17 @@ export const listFields: INodeProperties[] = [
     resource: 'list',
     operations: ['getMany'],
   }),
-  
+
+  createField({
+    displayName: 'Simplify',
+    name: 'simplify',
+    type: 'boolean',
+    default: true,
+    description: 'Whether to return a simplified version of the response instead of the raw data',
+    resource: 'list',
+    operations: ['getMany'],
+  }),
+
   createField({
     displayName: 'List',
     name: 'listId',

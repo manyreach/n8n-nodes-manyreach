@@ -1,7 +1,7 @@
 import { IDataObject, IExecuteFunctions } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { ensurePagination } from '../../helpers/validation';
-import { normalizeManyResponse } from '../../helpers/response.convert';
+import { normalizeManyResponse, simplifyItems } from '../../helpers/response.convert';
 
 export async function getProspects(this: IExecuteFunctions, index: number) {
     const email = this.getNodeParameter('email', index, '') as string;
@@ -53,5 +53,18 @@ export async function getProspects(this: IExecuteFunctions, index: number) {
     }
 
     const response = await apiRequest.call(this, 'GET', '/prospects', {}, qs);
-    return normalizeManyResponse(response);
+    const simplify = this.getNodeParameter('simplify', index, true) as boolean;
+    const normalized = normalizeManyResponse(response);
+    return simplify
+        ? simplifyItems(normalized, [
+              'id',
+              'email',
+              'firstName',
+              'lastName',
+              'company',
+              'jobPosition',
+              'sendingStatus',
+              'createdAt',
+          ])
+        : normalized;
 }
