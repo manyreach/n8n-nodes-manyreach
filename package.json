@@ -1,19 +1,19 @@
 {
     "name": "n8n-nodes-manyreach",
     "version": "0.1.0",
-    "description": "",
+    "description": "n8n community node for the Manyreach API",
     "license": "MIT",
-    "homepage": "",
+    "homepage": "https://github.com/manyreach/n8n-nodes-manyreach",
     "keywords": [
         "n8n-community-node-package"
     ],
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Manyreach",
+        "email": "tools@manyreach.com"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+        "url": "git+https://github.com/manyreach/n8n-nodes-manyreach.git"
     },
    "scripts": {
 		"build": "n8n-node build",
