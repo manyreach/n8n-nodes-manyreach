@@ -10,11 +10,11 @@ export const clientspaceOperations: INodeProperties[] = [
         resource: 'clientspace',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Get', value: 'getById' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' }
+            { name: 'Get Many', value: 'getMany', action: 'Get many clientspaces', description: 'Retrieve a list of clientspaces' },
+            { name: 'Create', value: 'create', action: 'Create clientspace', description: 'Create a new clientspace' },
+            { name: 'Get', value: 'getById', action: 'Get clientspace', description: 'Retrieve a clientspace' },
+            { name: 'Delete', value: 'delete', action: 'Delete clientspace', description: 'Delete a clientspace permanently' },
+            { name: 'Update', value: 'update', action: 'Update clientspace', description: 'Update a clientspace' }
         ],
     }),
 ];
@@ -77,7 +77,7 @@ export const clientspaceFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter clientspace ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
@@ -111,8 +111,8 @@ export const clientspaceFields: INodeProperties[] = [
         resource: 'clientspace',
         operations: ['create'],
         options: [
-            { displayName: 'Separate Credits', name: 'separateCredits', type: 'boolean', default: false },
-            { displayName: 'Auto Allocate', name: 'autoAllocate', type: 'boolean', default: false },
+            { displayName: 'Separate Credits', name: 'separateCredits', type: 'boolean', default: false, description: 'Whether to use separate credits for this clientspace' },
+            { displayName: 'Auto Allocate', name: 'autoAllocate', type: 'boolean', default: false, description: 'Whether to automatically allocate credits to this clientspace' },
             { displayName: 'Credit Amount', name: 'creditAmount', type: 'number', default: 0 }
         ],
     }),
@@ -127,8 +127,8 @@ export const clientspaceFields: INodeProperties[] = [
         operations: ['update'],
         options: [
             { displayName: 'Title', name: 'title', type: 'string', default: '' },
-            { displayName: 'Separate Credits', name: 'separateCredits', type: 'boolean', default: false },
-            { displayName: 'Auto Allocate', name: 'autoAllocate', type: 'boolean', default: false },
+            { displayName: 'Separate Credits', name: 'separateCredits', type: 'boolean', default: false, description: 'Whether to use separate credits for this clientspace' },
+            { displayName: 'Auto Allocate', name: 'autoAllocate', type: 'boolean', default: false, description: 'Whether to automatically allocate credits to this clientspace' },
             { displayName: 'Credit Amount', name: 'creditAmount', type: 'number', default: 0 }
         ],
     }),

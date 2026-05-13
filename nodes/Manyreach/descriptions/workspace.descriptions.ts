@@ -10,11 +10,11 @@ export const workspaceOperations: INodeProperties[] = [
         resource: 'workspace',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Get', value: 'getById' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' }
+            { name: 'Get Many', value: 'getMany', action: 'Get many workspaces', description: 'Retrieve a list of workspaces' },
+            { name: 'Create', value: 'create', action: 'Create workspace', description: 'Create a new workspace' },
+            { name: 'Get', value: 'getById', action: 'Get workspace', description: 'Retrieve a workspace' },
+            { name: 'Delete', value: 'delete', action: 'Delete workspace', description: 'Delete a workspace permanently' },
+            { name: 'Update', value: 'update', action: 'Update workspace', description: 'Update a workspace' }
         ],
     }),
 ];
@@ -99,7 +99,7 @@ export const workspaceFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter workspace ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',

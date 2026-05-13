@@ -22,6 +22,6 @@ export async function executeSender(this: IExecuteFunctions, operation: string, 
         case 'getErrors':
             return await getErrorsSender.call(this, i);
         default:
-            throw new Error(`Operation "${operation}" not supported for Campaign`);
+            throw new Error(`Operation "${operation}" not supported for Sender`);
     }
 }

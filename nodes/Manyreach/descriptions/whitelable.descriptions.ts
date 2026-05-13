@@ -10,7 +10,7 @@ export const whitelabelOperations: INodeProperties[] = [
     resource: 'whitelabel',
     default: '',
     optionsList: [
-      { name: 'Update', value: 'update' }
+      { name: 'Update', value: 'update', action: 'Update whitelabel settings', description: 'Update the whitelabel configuration' }
     ],
   }),
 ];
@@ -26,9 +26,9 @@ export const whitelabelFields: INodeProperties[] = [
     resource: 'whitelabel',
     operations: ['update'],
     options: [
-    { displayName: 'Color', name: 'color', type: 'color', default: '' , description: 'Hex color code for the theme'},
-    { displayName: 'Custom Domain', name: 'customDomain', type: 'string', default: '' },
-    { displayName: 'Logo Image Url', name: 'logoImageUrl', type: 'string', default: '' , description: 'Base64 for the logo image'},
+    { displayName: 'Color', name: 'color', type: 'color', default: '' , description: 'Hex color code for the whitelabel theme', placeholder: 'e.g. #00aaff' },
+    { displayName: 'Custom Domain', name: 'customDomain', type: 'string', default: '', placeholder: 'e.g. mail.yourdomain.com' },
+    { displayName: 'Logo Image URL', name: 'logoImageUrl', type: 'string', default: '' , description: 'Base64-encoded logo image', placeholder: 'e.g. data:image/png;base64,abc123' },
     ],
   })
 

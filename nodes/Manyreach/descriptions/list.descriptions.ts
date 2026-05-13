@@ -10,11 +10,11 @@ export const listOperations: INodeProperties[] = [
     resource: 'list',
     default: '',
     optionsList: [
-      { name: 'Get Many', value: 'getMany' },
-      { name: 'Create', value: 'create' },
-      { name: 'Get', value: 'getById' },
-      { name: 'Update', value: 'update' },
-      { name: 'Delete', value: 'delete' },
+      { name: 'Get Many', value: 'getMany', action: 'Get many lists', description: 'Retrieve all lists' },
+      { name: 'Create', value: 'create', action: 'Create list', description: 'Create a new list' },
+      { name: 'Get', value: 'getById', action: 'Get list', description: 'Retrieve a list' },
+      { name: 'Update', value: 'update', action: 'Update list', description: 'Update a list' },
+      { name: 'Delete', value: 'delete', action: 'Delete list', description: 'Delete a list permanently' },
     ],
   }),
 ];
@@ -76,7 +76,7 @@ export const listFields: INodeProperties[] = [
         displayName: 'By ID',
         name: 'id',
         type: 'string',
-        placeholder: 'Enter list ID',
+        placeholder: 'e.g. 1234',
         validation: [
           {
             type: 'regex',
