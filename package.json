@@ -1,6 +1,6 @@
 {
     "name": "@manyreach/n8n-nodes-manyreach",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "publishConfig": {
         "access": "public"
     },
@@ -18,17 +18,17 @@
         "type": "git",
         "url": "git+https://github.com/manyreach/n8n-nodes-manyreach.git"
     },
-   "scripts": {
-		"prepare": "node scripts/generate-build-info.js",
-		"prebuild": "node scripts/generate-build-info.js",
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"lint": "n8n-node lint",
-		"lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
-	},
+    "scripts": {
+        "prepare": "node scripts/generate-build-info.js",
+        "prebuild": "node scripts/generate-build-info.js",
+        "build": "n8n-node build",
+        "build:watch": "tsc --watch",
+        "dev": "n8n-node dev",
+        "lint": "n8n-node lint",
+        "lint:fix": "n8n-node lint --fix",
+        "release": "n8n-node release",
+        "prepublishOnly": "n8n-node prerelease"
+    },
     "files": [
         "dist"
     ],
