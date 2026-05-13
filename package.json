@@ -1,6 +1,9 @@
 {
-    "name": "n8n-nodes-manyreach",
+    "name": "@manyreach/n8n-nodes-manyreach",
     "version": "0.1.0",
+    "publishConfig": {
+        "access": "public"
+    },
     "description": "n8n community node for the Manyreach API",
     "license": "MIT",
     "homepage": "https://github.com/manyreach/n8n-nodes-manyreach",
@@ -30,9 +33,11 @@
     "n8n": {
         "n8nNodesApiVersion": 1,
         "strict": true,
-        "credentials": [],
+        "credentials": [
+            "dist/credentials/ManyreachApi.credentials.js"
+        ],
         "nodes": [
-            "dist/nodes/Example/Example.node.js"
+            "dist/nodes/Manyreach/Manyreach.node.js"
         ]
     },
     "devDependencies": {
