@@ -5,6 +5,7 @@ import {
   IHttpRequestMethods,
 } from 'n8n-workflow';
 import { BASE_URL } from '../ManyreachConfig';
+import { getTelemetryHeaders } from './telemetry';
 
 export async function apiRequest(
   this: IExecuteFunctions | ILoadOptionsFunctions,
@@ -26,6 +27,7 @@ export async function apiRequest(
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...getTelemetryHeaders(this),
     },
   };
 

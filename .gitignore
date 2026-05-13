@@ -4,6 +4,7 @@ node_modules/
 # build output
 dist/
 *.tsbuildinfo
+nodes/Manyreach/helpers/build-info.ts
 
 # environment
 .env
