@@ -1,0 +1,13 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./dist:/home/node/.n8n/custom/node_modules/@manyreach/n8n-nodes-manyreach/dist:ro
+      - ./package.json:/home/node/.n8n/custom/node_modules/@manyreach/n8n-nodes-manyreach/package.json:ro
+volumes:
+  n8n-data:
