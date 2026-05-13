@@ -6,6 +6,6 @@ export async function deleteSequence(this: IExecuteFunctions, index: number) {
   const rawSequenceId = this.getNodeParameter('sequenceId', index) as unknown;
   const sequenceId = extractResourceId(rawSequenceId);
   ensureId(sequenceId);
-  const response = await apiRequest.call(this, 'DELETE', `/sequences/${sequenceId}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/sequences/${sequenceId}`);
+  return { deleted: true };
 }

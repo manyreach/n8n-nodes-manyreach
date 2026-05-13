@@ -7,6 +7,6 @@ export async function deleteWorkspace(this: IExecuteFunctions, index: number) {
   const resourceLocator = this.getNodeParameter('workspaceId', index) as unknown;
   const id = extractResourceId(resourceLocator);
 
-  const response = await apiRequest.call(this, 'DELETE', `/workspaces/${id}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/workspaces/${id}`);
+  return { deleted: true };
 }
