@@ -1,4 +1,9 @@
-import type { ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 import { BASE_URL } from '../nodes/Manyreach/ManyreachConfig';
 
 export class ManyreachApi implements ICredentialType {
@@ -21,20 +26,20 @@ export class ManyreachApi implements ICredentialType {
 		},
 	];
 
-	authenticate = {
+	authenticate: IAuthenticateGeneric = {
 		type: 'generic',
 		properties: {
 			headers: {
 				'X-API-Key': '={{$credentials.apiKey}}',
 			},
 		},
-	} as const;
+	};
 
-	test = {
+	test: ICredentialTestRequest = {
 		request: {
 			baseURL: BASE_URL,
 			url: '/tags',
 			method: 'GET',
 		},
-	} as const;
+	};
 }
