@@ -91,7 +91,7 @@ export const listFields: INodeProperties[] = [
           {
             type: 'regex',
             properties: {
-              regex: '^\\\\d+$',
+              regex: '^\\d+$',
               errorMessage: 'Only numeric IDs are allowed',
             },
           },

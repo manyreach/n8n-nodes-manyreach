@@ -97,7 +97,7 @@ export const campaignFields: INodeProperties[] = [
           {
             type: 'regex',
             properties: {
-              regex: '^\\\\d+$',
+              regex: '^\\d+$',
               errorMessage: 'Only numeric IDs are allowed',
             },
           },
