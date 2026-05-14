@@ -10,11 +10,11 @@ export const clientspaceOperations: INodeProperties[] = [
         resource: 'clientspace',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany', action: 'Get many clientspaces', description: 'Retrieve a list of clientspaces' },
             { name: 'Create', value: 'create', action: 'Create clientspace', description: 'Create a new clientspace' },
-            { name: 'Get', value: 'getById', action: 'Get clientspace', description: 'Retrieve a clientspace' },
             { name: 'Delete', value: 'delete', action: 'Delete clientspace', description: 'Delete a clientspace permanently' },
-            { name: 'Update', value: 'update', action: 'Update clientspace', description: 'Update a clientspace' }
+            { name: 'Get', value: 'getById', action: 'Get clientspace', description: 'Retrieve a clientspace' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many clientspaces', description: 'Retrieve a list of clientspaces' },
+            { name: 'Update', value: 'update', action: 'Update clientspace', description: 'Update a clientspace' },
         ],
     }),
 ];

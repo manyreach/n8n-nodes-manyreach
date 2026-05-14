@@ -10,12 +10,12 @@ export const senderOperations: INodeProperties[] = [
         resource: 'sender',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany', action: 'Get many senders', description: 'Retrieve a list of senders' },
             { name: 'Create', value: 'create', action: 'Create sender', description: 'Create a new sender' },
-            { name: 'Get', value: 'getById', action: 'Get sender', description: 'Retrieve a sender' },
             { name: 'Delete', value: 'delete', action: 'Delete sender', description: 'Delete a sender permanently' },
+            { name: 'Get', value: 'getById', action: 'Get sender', description: 'Retrieve a sender' },
+            { name: 'Get Errors', value: 'getErrors', action: 'Get sender authentication errors', description: 'Retrieve DKIM, SPF, and DMARC authentication errors for a sender' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many senders', description: 'Retrieve a list of senders' },
             { name: 'Update', value: 'update', action: 'Update sender', description: 'Update a sender' },
-            { name: 'Get Errors', value: 'getErrors', action: 'Get sender authentication errors', description: 'Retrieve DKIM, SPF, and DMARC authentication errors for a sender' }
         ],
     }),
 ];

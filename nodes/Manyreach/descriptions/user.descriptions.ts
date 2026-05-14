@@ -20,11 +20,11 @@ export const userOperations: INodeProperties[] = [
         resource: 'user',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany', action: 'Get many users', description: 'Retrieve a list of users' },
             { name: 'Create', value: 'create', action: 'Create user', description: 'Create a new user' },
-            { name: 'Get', value: 'getById', action: 'Get user', description: 'Retrieve a user' },
             { name: 'Delete', value: 'delete', action: 'Delete user', description: 'Delete a user permanently' },
-            { name: 'Update', value: 'update', action: 'Update user', description: 'Update a user' }
+            { name: 'Get', value: 'getById', action: 'Get user', description: 'Retrieve a user' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many users', description: 'Retrieve a list of users' },
+            { name: 'Update', value: 'update', action: 'Update user', description: 'Update a user' },
         ],
     }),
 ];

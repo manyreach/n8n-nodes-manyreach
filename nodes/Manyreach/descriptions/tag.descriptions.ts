@@ -10,12 +10,12 @@ export const tagOperations: INodeProperties[] = [
     resource: 'tag',
     default: '',
     optionsList: [
-      { name: 'Get Many', value: 'getMany', action: 'Get many tags', description: 'Retrieve a list of tags' },
-      { name: 'Get', value: 'getById', action: 'Get tag', description: 'Retrieve a tag' },
-      { name: 'Get Prospects', value: 'getProspects', action: 'Get prospects for tag', description: 'Retrieve prospects assigned to a tag' },
       { name: 'Create', value: 'create', action: 'Create tag', description: 'Create a new tag' },
-      { name: 'Update', value: 'update', action: 'Update tag', description: 'Update a tag' },
       { name: 'Delete', value: 'delete', action: 'Delete tag', description: 'Delete a tag permanently' },
+      { name: 'Get', value: 'getById', action: 'Get tag', description: 'Retrieve a tag' },
+      { name: 'Get Many', value: 'getMany', action: 'Get many tags', description: 'Retrieve a list of tags' },
+      { name: 'Get Prospects', value: 'getProspects', action: 'Get prospects for tag', description: 'Retrieve prospects assigned to a tag' },
+      { name: 'Update', value: 'update', action: 'Update tag', description: 'Update a tag' },
     ],
   }),
 ];

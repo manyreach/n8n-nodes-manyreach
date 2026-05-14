@@ -16,9 +16,9 @@ export const followupOperations: INodeProperties[] = [
     resource: 'followup',
     default: '',
     optionsList: [
-      { name: 'Get', value: 'getById', action: 'Get followup', description: 'Retrieve a followup step' },
       { name: 'Create', value: 'create', action: 'Create followup', description: 'Create a new followup step' },
       { name: 'Delete', value: 'delete', action: 'Delete followup', description: 'Delete a followup step permanently' },
+      { name: 'Get', value: 'getById', action: 'Get followup', description: 'Retrieve a followup step' },
       { name: 'Update', value: 'update', action: 'Update followup', description: 'Update a followup step' },
     ],
   }),

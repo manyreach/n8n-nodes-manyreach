@@ -20,7 +20,7 @@ import { workspaceOperations, workspaceFields } from './descriptions/workspace.d
 import { senderOperations , senderFields } from './descriptions/sender.descriptions';
 import { userOperations, userFields } from './descriptions/user.descriptions';
 import { clientspaceOperations, clientspaceFields } from './descriptions/clientspace.descriptions';
-import { whitelabelOperations, whitelabelFields } from './descriptions/whitelable.descriptions';
+import { whitelabelOperations, whitelabelFields } from './descriptions/whitelabel.descriptions';
 import { messageOperations, messageFields } from './descriptions/message.descriptions';
 
 
@@ -49,7 +49,7 @@ import { executeWorkspace } from './execute/workspace.exec';
 import { executeSender } from './execute/sender.exec';
 import { executeUser } from './execute/user.exec';
 import { executeClientspace } from './execute/clientspace.exec';
-import { executeWhitelabel } from './execute/whitelable.exec';
+import { executeWhitelabel } from './execute/whitelabel.exec';
 import { executeMessage } from './execute/message.exec';
 
 export class Manyreach implements INodeType {

@@ -10,15 +10,15 @@ export const campaignOperations: INodeProperties[] = [
     resource: 'campaign',
     default: '',
     optionsList: [
-      { name: 'Get Many', value: 'getMany', action: 'Get many campaigns', description: 'Retrieve a list of campaigns' },
-      { name: 'Create', value: 'create', action: 'Create campaign', description: 'Create a new campaign' },
-      { name: 'Get', value: 'getById', action: 'Get campaign', description: 'Retrieve a campaign' },
-      { name: 'Delete', value: 'delete', action: 'Delete campaign', description: 'Delete a campaign permanently' },
-      { name: 'Update', value: 'update', action: 'Update campaign', description: 'Update a campaign' },
-      { name: 'Start', value: 'start', action: 'Start campaign', description: 'Start a campaign' },
-      { name: 'Pause', value: 'pause', action: 'Pause campaign', description: 'Pause a campaign' },
       { name: 'Copy', value: 'copy', action: 'Copy campaign', description: 'Copy a campaign' },
-      { name: 'Get Statistics', value: 'getStats', action: 'Get campaign statistics', description: 'Retrieve statistics for a campaign' }
+      { name: 'Create', value: 'create', action: 'Create campaign', description: 'Create a new campaign' },
+      { name: 'Delete', value: 'delete', action: 'Delete campaign', description: 'Delete a campaign permanently' },
+      { name: 'Get', value: 'getById', action: 'Get campaign', description: 'Retrieve a campaign' },
+      { name: 'Get Many', value: 'getMany', action: 'Get many campaigns', description: 'Retrieve a list of campaigns' },
+      { name: 'Get Statistics', value: 'getStats', action: 'Get campaign statistics', description: 'Retrieve statistics for a campaign' },
+      { name: 'Pause', value: 'pause', action: 'Pause campaign', description: 'Pause a campaign' },
+      { name: 'Start', value: 'start', action: 'Start campaign', description: 'Start a campaign' },
+      { name: 'Update', value: 'update', action: 'Update campaign', description: 'Update a campaign' },
     ],
   }),
 ];

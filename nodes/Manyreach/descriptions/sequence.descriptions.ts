@@ -42,9 +42,9 @@ export const sequenceOperations: INodeProperties[] = [
         resource: 'sequence',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany', action: 'Get many sequences', description: 'Retrieve a list of sequences' },
             { name: 'Create', value: 'create', action: 'Create sequence', description: 'Create a new sequence' },
             { name: 'Delete', value: 'delete', action: 'Delete sequence', description: 'Delete a sequence permanently' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many sequences', description: 'Retrieve a list of sequences' },
             { name: 'Update', value: 'update', action: 'Update sequence', description: 'Update a sequence' },
         ],
     }),

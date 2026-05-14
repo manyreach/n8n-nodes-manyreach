@@ -10,7 +10,7 @@ export const whitelabelOperations: INodeProperties[] = [
     resource: 'whitelabel',
     default: '',
     optionsList: [
-      { name: 'Update', value: 'update', action: 'Update whitelabel settings', description: 'Update the whitelabel configuration' }
+      { name: 'Update', value: 'update', action: 'Update whitelabel settings', description: 'Update the whitelabel configuration' },
     ],
   }),
 ];

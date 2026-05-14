@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { updateWhitelabel } from '../resources/Whitelable/whitelable.update';
+import { updateWhitelabel } from '../resources/Whitelabel/whitelabel.update';
 
 export async function executeWhitelabel(this: IExecuteFunctions, operation: string, index: number) {
   switch (operation) {
