@@ -10,12 +10,12 @@ export const senderOperations: INodeProperties[] = [
         resource: 'sender',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Get', value: 'getById' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' },
-            { name: 'Get Errors', value: 'getErrors' }
+            { name: 'Create', value: 'create', action: 'Create sender', description: 'Create a new sender' },
+            { name: 'Delete', value: 'delete', action: 'Delete sender', description: 'Delete a sender permanently' },
+            { name: 'Get', value: 'getById', action: 'Get sender', description: 'Retrieve a sender' },
+            { name: 'Get Errors', value: 'getErrors', action: 'Get sender authentication errors', description: 'Retrieve DKIM, SPF, and DMARC authentication errors for a sender' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many senders', description: 'Retrieve a list of senders' },
+            { name: 'Update', value: 'update', action: 'Update sender', description: 'Update a sender' },
         ],
     }),
 ];
@@ -46,12 +46,12 @@ export const senderFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter sender ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
                         properties: {
-                            regex: '^\\\\d+$',
+                            regex: '^\\d+$',
                             errorMessage: 'Only numeric IDs are allowed',
                         },
                     },
@@ -133,10 +133,20 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'sender',
+        operations: ['getMany'],
+    }),
+
+    createField({
         displayName: 'Email',
         name: 'email',
         type: 'string',
-								placeholder: 'name@email.com',
+								placeholder: 'e.g. nathan@example.com',
         default: '',
         description: 'Email address of the sender account used for outgoing campaigns; must be valid email format with maximum 100 characters',
         resource: 'sender',
@@ -156,18 +166,19 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
-        displayName: 'Custom Smtp Server',
+        displayName: 'Custom SMTP Server',
         name: 'customSmtpServer',
         type: 'string',
         default: '',
         description: 'SMTP server hostname for custom email sending configuration; maximum 128 characters',
+        placeholder: 'e.g. smtp.gmail.com',
         resource: 'sender',
         operations: ['create'],
         required: true,
     }),
 
     createField({
-        displayName: 'Custom Smtp Port',
+        displayName: 'Custom SMTP Port',
         name: 'customSmtpPort',
         type: 'number',
         default: 0,
@@ -178,7 +189,7 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
-        displayName: 'Custom Smtp Pass',
+        displayName: 'Custom SMTP Password',
         name: 'customSmtpPass',
         type: 'string',
         default: '',
@@ -189,18 +200,19 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
-        displayName: 'Custom Imap Server',
+        displayName: 'Custom IMAP Server',
         name: 'customImapServer',
         type: 'string',
         default: '',
         description: 'IMAP server hostname for custom email retrieval configuration; maximum 128 characters',
+        placeholder: 'e.g. imap.gmail.com',
         resource: 'sender',
         operations: ['create'],
         required: true,
     }),
 
     createField({
-        displayName: 'Custom Imap Port',
+        displayName: 'Custom IMAP Port',
         name: 'customImapPort',
         type: 'string',
         default: '',
@@ -211,7 +223,7 @@ export const senderFields: INodeProperties[] = [
     }),
 
     createField({
-        displayName: 'Custom Imap Pass',
+        displayName: 'Custom IMAP Password',
         name: 'customImapPass',
         type: 'string',
         default: '',
@@ -231,10 +243,10 @@ export const senderFields: INodeProperties[] = [
             show: { resource: ['sender'], operation: ['create'] },
         },
         options: [
-            { displayName: 'Custom Imap Username', name: 'customImapUsername', type: 'string', default: '' },
-            { displayName: 'Custom Smtp Username', name: 'customSmtpUsername', type: 'string', default: '' },
+            { displayName: 'Custom IMAP Username', name: 'customImapUsername', type: 'string', default: '' },
+            { displayName: 'Custom SMTP Username', name: 'customSmtpUsername', type: 'string', default: '' },
             { displayName: 'Custom Warmup Tag', name: 'customWarmupTag', type: 'string', default: '' },
-            { displayName: 'Daily Limit Increase', name: 'dailyLimitIncrease', type: 'boolean', default: false },
+            { displayName: 'Daily Limit Increase', name: 'dailyLimitIncrease', type: 'boolean', default: false, description: 'Whether to automatically increase the daily sending limit' },
             { displayName: 'Daily Limit Increase Percent', name: 'dailyLimitIncreasePercent', type: 'number', default: 0 },
             { displayName: 'Daily Limit Increase To Max', name: 'dailyLimitIncreaseToMax', type: 'number', default: 0 },
             { displayName: 'Delay Min', name: 'delayMin', type: 'number', default: 0 },
@@ -255,13 +267,13 @@ export const senderFields: INodeProperties[] = [
             { displayName: 'Sender Custom9', name: 'senderCustom9', type: 'string', default: '' },
             { displayName: 'Signature', name: 'signature', type: 'string', default: '' },
             { displayName: 'Tracking Domain', name: 'trackingDomain', type: 'string', default: '' },
-            { displayName: 'Warmup', name: 'warmup', type: 'boolean', default: false },
+            { displayName: 'Warmup', name: 'warmup', type: 'boolean', default: false, description: 'Whether warmup is enabled for this sender' },
             { displayName: 'Warmup Daily Limit', name: 'warmupDailyLimit', type: 'number', default: 0 },
-            { displayName: 'Warmup Daily Limit Increase', name: 'warmupDailyLimitIncrease', type: 'boolean', default: false },
+            { displayName: 'Warmup Daily Limit Increase', name: 'warmupDailyLimitIncrease', type: 'boolean', default: false, description: 'Whether to automatically increase the warmup daily limit' },
             { displayName: 'Warmup Daily Limit Increase Percent', name: 'warmupDailyLimitIncreasePercent', type: 'number', default: 0 },
             { displayName: 'Warmup Daily Limit Increase To Max', name: 'warmupDailyLimitIncreaseToMax', type: 'number', default: 0 },
             { displayName: 'Warmup Reply Percent', name: 'warmupReplyPercent', type: 'number', default: 0 },
-            { displayName: 'Warmup Skip Weekends', name: 'warmupSkipWeekends', type: 'boolean', default: false }
+            { displayName: 'Warmup Skip Weekends', name: 'warmupSkipWeekends', type: 'boolean', default: false, description: 'Whether to skip weekends during the warmup period' }
         ],
     },
 
@@ -275,17 +287,17 @@ export const senderFields: INodeProperties[] = [
             show: { resource: ['sender'], operation: ['update'] },
         },
         options: [
-            { displayName: 'Custom Imap Pass', name: 'customImapPass', type: 'string', default: '' },
-            { displayName: 'Custom Imap Port', name: 'customImapPort', type: 'string', default: '' },
-            { displayName: 'Custom Imap Server', name: 'customImapServer', type: 'string', default: '' },
-            { displayName: 'Custom Imap Username', name: 'customImapUsername', type: 'string', default: '' },
-            { displayName: 'Custom Smtp Pass', name: 'customSmtpPass', type: 'string', default: '' },
-            { displayName: 'Custom Smtp Port', name: 'customSmtpPort', type: 'number', default: 0 },
-            { displayName: 'Custom Smtp Server', name: 'customSmtpServer', type: 'string', default: '' },
-            { displayName: 'Custom Smtp Username', name: 'customSmtpUsername', type: 'string', default: '' },
+            { displayName: 'Custom IMAP Password', name: 'customImapPass', type: 'string', default: '' },
+            { displayName: 'Custom IMAP Port', name: 'customImapPort', type: 'string', default: '' },
+            { displayName: 'Custom IMAP Server', name: 'customImapServer', type: 'string', default: '' },
+            { displayName: 'Custom IMAP Username', name: 'customImapUsername', type: 'string', default: '' },
+            { displayName: 'Custom SMTP Password', name: 'customSmtpPass', type: 'string', default: '' },
+            { displayName: 'Custom SMTP Port', name: 'customSmtpPort', type: 'number', default: 0 },
+            { displayName: 'Custom SMTP Server', name: 'customSmtpServer', type: 'string', default: '' },
+            { displayName: 'Custom SMTP Username', name: 'customSmtpUsername', type: 'string', default: '' },
             { displayName: 'Custom Warmup Tag', name: 'customWarmupTag', type: 'string', default: '' },
             { displayName: 'Daily Limit', name: 'dailyLimit', type: 'number', default: 0 },
-            { displayName: 'Daily Limit Increase', name: 'dailyLimitIncrease', type: 'boolean', default: false },
+            { displayName: 'Daily Limit Increase', name: 'dailyLimitIncrease', type: 'boolean', default: false, description: 'Whether to automatically increase the daily sending limit' },
             { displayName: 'Daily Limit Increase Percent', name: 'dailyLimitIncreasePercent', type: 'number', default: 0 },
             { displayName: 'Daily Limit Increase To Max', name: 'dailyLimitIncreaseToMax', type: 'number', default: 0 },
             { displayName: 'Delay Min', name: 'delayMin', type: 'number', default: 0 },
@@ -306,13 +318,13 @@ export const senderFields: INodeProperties[] = [
             { displayName: 'Sender Custom9', name: 'senderCustom9', type: 'string', default: '' },
             { displayName: 'Signature', name: 'signature', type: 'string', default: '' },
             { displayName: 'Tracking Domain', name: 'trackingDomain', type: 'string', default: '' },
-            { displayName: 'Warmup', name: 'warmup', type: 'boolean', default: false },
+            { displayName: 'Warmup', name: 'warmup', type: 'boolean', default: false, description: 'Whether warmup is enabled for this sender' },
             { displayName: 'Warmup Daily Limit', name: 'warmupDailyLimit', type: 'number', default: 0 },
-            { displayName: 'Warmup Daily Limit Increase', name: 'warmupDailyLimitIncrease', type: 'boolean', default: false },
+            { displayName: 'Warmup Daily Limit Increase', name: 'warmupDailyLimitIncrease', type: 'boolean', default: false, description: 'Whether to automatically increase the warmup daily limit' },
             { displayName: 'Warmup Daily Limit Increase Percent', name: 'warmupDailyLimitIncreasePercent', type: 'number', default: 0 },
             { displayName: 'Warmup Daily Limit Increase To Max', name: 'warmupDailyLimitIncreaseToMax', type: 'number', default: 0 },
             { displayName: 'Warmup Reply Percent', name: 'warmupReplyPercent', type: 'number', default: 0 },
-            { displayName: 'Warmup Skip Weekends', name: 'warmupSkipWeekends', type: 'boolean', default: false }
+            { displayName: 'Warmup Skip Weekends', name: 'warmupSkipWeekends', type: 'boolean', default: false, description: 'Whether to skip weekends during the warmup period' }
         ],
     },
 ];

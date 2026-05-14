@@ -7,6 +7,6 @@ export async function deleteClientspace(this: IExecuteFunctions, index: number) 
   const resourceLocator = this.getNodeParameter('clientspaceId', index) as unknown;
   const id = extractResourceId(resourceLocator);
 
-  const response = await apiRequest.call(this, 'DELETE', `/clientspaces/${id}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/clientspaces/${id}`);
+  return { deleted: true };
 }

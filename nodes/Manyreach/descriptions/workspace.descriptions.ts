@@ -10,11 +10,11 @@ export const workspaceOperations: INodeProperties[] = [
         resource: 'workspace',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Get', value: 'getById' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' }
+            { name: 'Create', value: 'create', action: 'Create workspace', description: 'Create a new workspace' },
+            { name: 'Delete', value: 'delete', action: 'Delete workspace', description: 'Delete a workspace permanently' },
+            { name: 'Get', value: 'getById', action: 'Get workspace', description: 'Retrieve a workspace' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many workspaces', description: 'Retrieve a list of workspaces' },
+            { name: 'Update', value: 'update', action: 'Update workspace', description: 'Update a workspace' },
         ],
     }),
 ];
@@ -51,6 +51,16 @@ export const workspaceFields: INodeProperties[] = [
         resource: 'workspace',
         operations: ['getMany'],
 
+    }),
+
+    createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'workspace',
+        operations: ['getMany'],
     }),
 
     createField({
@@ -99,12 +109,12 @@ export const workspaceFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter workspace ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
                         properties: {
-                            regex: '^\\\\d+$',
+                            regex: '^\\d+$',
                             errorMessage: 'Only numeric IDs are allowed',
                         },
                     },

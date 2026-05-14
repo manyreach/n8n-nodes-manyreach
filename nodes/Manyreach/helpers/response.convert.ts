@@ -44,3 +44,18 @@ export function normalizeManyResponse<T = unknown>(response: unknown): ManyRespo
     pagination: responseObj?.pagination ?? [],
   };
 }
+
+export function simplifyItems(
+  response: ManyResponse,
+  fields: string[],
+): ManyResponse<Record<string, unknown>> {
+  return {
+    items: response.items.map((item) => {
+      const obj = (item ?? {}) as Record<string, unknown>;
+      return Object.fromEntries(
+        fields.filter((f) => f in obj).map((f) => [f, obj[f]]),
+      );
+    }),
+    pagination: response.pagination,
+  };
+}

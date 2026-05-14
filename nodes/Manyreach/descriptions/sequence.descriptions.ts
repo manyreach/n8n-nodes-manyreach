@@ -42,10 +42,10 @@ export const sequenceOperations: INodeProperties[] = [
         resource: 'sequence',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' },
+            { name: 'Create', value: 'create', action: 'Create sequence', description: 'Create a new sequence' },
+            { name: 'Delete', value: 'delete', action: 'Delete sequence', description: 'Delete a sequence permanently' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many sequences', description: 'Retrieve a list of sequences' },
+            { name: 'Update', value: 'update', action: 'Update sequence', description: 'Update a sequence' },
         ],
     }),
 ];
@@ -76,7 +76,7 @@ export const sequenceFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter campaign ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
@@ -115,7 +115,7 @@ export const sequenceFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter sequence ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
@@ -151,14 +151,24 @@ export const sequenceFields: INodeProperties[] = [
         },
         options: [
             { displayName: 'Condition Action', name: 'conditionAction', type: 'options', default: 'Opened', options: [{ name: 'Bounced', value: 'Bounced' }, { name: 'Clicked', value: 'Clicked' }, { name: 'Converted', value: 'Converted' }, { name: 'Opened', value: 'Opened' }, { name: 'Unsubscribed', value: 'Unsubscribed' }] },
-            { displayName: 'Condition Extra', name: 'conditionExtra', type: 'boolean', default: false },
-            { displayName: 'Condition Negate', name: 'conditionNegate', type: 'boolean', default: false },
+            { displayName: 'Condition Extra', name: 'conditionExtra', type: 'boolean', default: false, description: 'Whether to enable extra condition matching' },
+            { displayName: 'Condition Negate', name: 'conditionNegate', type: 'boolean', default: false, description: 'Whether to negate the condition' },
             { displayName: 'Condition Operator', name: 'conditionOperator', type: 'options', default: 'GreaterThanOrEqual', options: [{ name: 'Equal', value: 'Equal' }, { name: 'GreaterThan', value: 'GreaterThan' }, { name: 'GreaterThanOrEqual', value: 'GreaterThanOrEqual' }, { name: 'LessThan', value: 'LessThan' }, { name: 'LessThanOrEqual', value: 'LessThanOrEqual' }, { name: 'NotEqual', value: 'NotEqual' }] },
             { displayName: 'Condition Reply', name: 'conditionReply', type: 'options', default: 'All', options: [{ name: 'All', value: 'All' }, { name: 'Converted', value: 'Converted' }, { name: 'NotConverted', value: 'NotConverted' }, { name: 'NotOpened', value: 'NotOpened' }, { name: 'NotReplied', value: 'NotReplied' }, { name: 'Opened', value: 'Opened' }, { name: 'Replied', value: 'Replied' }, { name: 'RepliedInterested', value: 'RepliedInterested' }, { name: 'RepliedMaybeLater', value: 'RepliedMaybeLater' }, { name: 'RepliedNeutral', value: 'RepliedNeutral' }, { name: 'RepliedNotInterested', value: 'RepliedNotInterested' }] },
             { displayName: 'Condition Times', name: 'conditionTimes', type: 'number', default: 0 },
             { displayName: 'Short Name', name: 'shortName', type: 'string', default: '' }
         ],
     },
+    createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'sequence',
+        operations: ['getMany'],
+    }),
+
     createField({
         displayName: 'Update Fields',
         name: 'updateFields',
@@ -169,8 +179,8 @@ export const sequenceFields: INodeProperties[] = [
         operations: ['update'],
         options: [
             { displayName: 'Condition Action', name: 'conditionAction', type: 'options', default: 'Opened', options: conditionActionOptions },
-            { displayName: 'Condition Extra', name: 'conditionExtra', type: 'boolean', default: false },
-            { displayName: 'Condition Negate', name: 'conditionNegate', type: 'boolean', default: false },
+            { displayName: 'Condition Extra', name: 'conditionExtra', type: 'boolean', default: false, description: 'Whether to enable extra condition matching' },
+            { displayName: 'Condition Negate', name: 'conditionNegate', type: 'boolean', default: false, description: 'Whether to negate the condition' },
             { displayName: 'Condition Operator', name: 'conditionOperator', type: 'options', default: 'GreaterThanOrEqual', options: conditionOperatorOptions },
             { displayName: 'Condition Reply', name: 'conditionReply', type: 'options', default: 'All', options: conditionReplyOptions },
             { displayName: 'Condition Times', name: 'conditionTimes', type: 'number', default: 0 },

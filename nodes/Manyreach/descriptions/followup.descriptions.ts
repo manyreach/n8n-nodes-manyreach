@@ -16,10 +16,10 @@ export const followupOperations: INodeProperties[] = [
     resource: 'followup',
     default: '',
     optionsList: [
-      { name: 'Get', value: 'getById' },
-      { name: 'Create', value: 'create' },
-      { name: 'Delete', value: 'delete' },
-      { name: 'Update', value: 'update' },
+      { name: 'Create', value: 'create', action: 'Create followup', description: 'Create a new followup step' },
+      { name: 'Delete', value: 'delete', action: 'Delete followup', description: 'Delete a followup step permanently' },
+      { name: 'Get', value: 'getById', action: 'Get followup', description: 'Retrieve a followup step' },
+      { name: 'Update', value: 'update', action: 'Update followup', description: 'Update a followup step' },
     ],
   }),
 ];
@@ -50,7 +50,7 @@ export const followupFields: INodeProperties[] = [
         displayName: 'By ID',
         name: 'id',
         type: 'string',
-        placeholder: 'Enter campaign ID',
+        placeholder: 'e.g. 1234',
         validation: [
           {
             type: 'regex',
@@ -89,7 +89,7 @@ export const followupFields: INodeProperties[] = [
         displayName: 'By ID',
         name: 'id',
         type: 'string',
-        placeholder: 'Enter sequence ID',
+        placeholder: 'e.g. 1234',
         validation: [
           {
             type: 'regex',
@@ -128,7 +128,7 @@ export const followupFields: INodeProperties[] = [
         displayName: 'By ID',
         name: 'id',
         type: 'string',
-        placeholder: 'Enter followup ID',
+        placeholder: 'e.g. 1234',
         validation: [
           {
             type: 'regex',
@@ -144,13 +144,13 @@ export const followupFields: INodeProperties[] = [
   }),
 
   createField({
-    displayName: 'subject',
+    displayName: 'Subject',
     name: 'subject',
     type: 'string',
     default: '',
     resource: 'followup',
     operations: ['create'],
-    description: 'The subject of the followup email',
+    description: 'Subject line of the followup email',
   }),
 
   createField({
@@ -160,7 +160,7 @@ export const followupFields: INodeProperties[] = [
     default: '',
     resource: 'followup',
     operations: ['create'],
-    description: 'The body content of the followup email',
+    description: 'Body content of the followup email',
   }),
 
   createField({
@@ -172,10 +172,10 @@ export const followupFields: INodeProperties[] = [
     resource: 'followup',
     operations: ['create'],
     options: [
-      { displayName: 'Reply In Thread', name: 'replyInThread', type: 'boolean', default: false },
+      { displayName: 'Reply In Thread', name: 'replyInThread', type: 'boolean', default: false, description: 'Whether to send this followup as a reply in the original thread' },
       { displayName: 'Reply In Thread To Followup ID', name: 'replyInThreadToFollowupId', type: 'number', default: 0 },
-      { displayName: 'Send In Same Thread', name: 'sendInSameThread', type: 'boolean', default: false },
-      { displayName: 'Use Original Subject', name: 'useOriginalSubject', type: 'boolean', default: false },
+      { displayName: 'Send In Same Thread', name: 'sendInSameThread', type: 'boolean', default: false, description: 'Whether to send this followup in the same thread' },
+      { displayName: 'Use Original Subject', name: 'useOriginalSubject', type: 'boolean', default: false, description: 'Whether to use the original campaign subject line' },
       { displayName: 'Wait Min', name: 'waitMin', type: 'number', default: 0, description: 'Wait time duration before sending this followup; must be an integer between 1 and 1000', required: true },
       { displayName: 'Wait Units', name: 'waitUnits', type: 'options', default: 'Minutes', options: waitUnits }
     ],
@@ -190,12 +190,12 @@ export const followupFields: INodeProperties[] = [
     resource: 'followup',
     operations: ['update'],
     options: [
-      { displayName: 'Body', name: 'body', type: 'string', default: '', description: 'The body content of the followup email' },
-      { displayName: 'Reply In Thread', name: 'replyInThread', type: 'boolean', default: false },
+      { displayName: 'Body', name: 'body', type: 'string', default: '', description: 'Body content of the followup email' },
+      { displayName: 'Reply In Thread', name: 'replyInThread', type: 'boolean', default: false, description: 'Whether to send this followup as a reply in the original thread' },
       { displayName: 'Reply In Thread To Followup ID', name: 'replyInThreadToFollowupId', type: 'number', default: 0 },
-      { displayName: 'Send In Same Thread', name: 'sendInSameThread', type: 'boolean', default: false },
-      { displayName: 'Subject', name: 'subject', type: 'string', default: '', description: 'The subject of the followup email' },
-      { displayName: 'Use Original Subject', name: 'useOriginalSubject', type: 'boolean', default: false },
+      { displayName: 'Send In Same Thread', name: 'sendInSameThread', type: 'boolean', default: false, description: 'Whether to send this followup in the same thread' },
+      { displayName: 'Subject', name: 'subject', type: 'string', default: '', description: 'Subject line of the followup email' },
+      { displayName: 'Use Original Subject', name: 'useOriginalSubject', type: 'boolean', default: false, description: 'Whether to use the original campaign subject line' },
       { displayName: 'Wait Min', name: 'waitMin', type: 'number', default: 0, description: 'Wait time duration before sending this followup; must be an integer between 1 and 1000', required: true },
       { displayName: 'Wait Units', name: 'waitUnits', type: 'options', default: 'Minutes', options: waitUnits }
     ],

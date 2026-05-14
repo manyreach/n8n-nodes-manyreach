@@ -1,7 +1,7 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { ensurePagination } from '../../helpers/validation';
-import { normalizeManyResponse } from '../../helpers/response.convert';
+import { normalizeManyResponse, simplifyItems } from '../../helpers/response.convert';
 
 export async function getWorkspaces(this: IExecuteFunctions, index: number) {
     const page = this.getNodeParameter('page', index, 1) as number;
@@ -12,5 +12,14 @@ export async function getWorkspaces(this: IExecuteFunctions, index: number) {
 
     const response = await apiRequest.call(this, 'GET', '/workspaces', {}, { page, limit, startingAfter });
 
-    return normalizeManyResponse(response);
+    const simplify = this.getNodeParameter('simplify', index, true) as boolean;
+    const normalized = normalizeManyResponse(response);
+    return simplify
+        ? simplifyItems(normalized, [
+            'id',
+            'name',
+            'createdAt',
+            'updatedAt',
+        ])
+        : normalized;
 }

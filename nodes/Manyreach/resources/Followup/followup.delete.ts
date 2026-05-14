@@ -8,6 +8,6 @@ export async function deleteFollowup(this: IExecuteFunctions, index: number) {
   const followupId = extractNumericId(rawFollowupId);
   ensureId(followupId);
 
-  const response = await apiRequest.call(this, 'DELETE', `/followups/${followupId}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/followups/${followupId}`);
+  return { deleted: true };
 }

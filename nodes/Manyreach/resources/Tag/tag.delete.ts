@@ -19,10 +19,7 @@ export async function deleteTag(this: IExecuteFunctions, index: number) {
     qs.force = true;
   }
 
-  // Make API request
   await apiRequest.call(this, 'DELETE', `/tags/${tagId}`, body, qs);
-  
-  // DELETE returns 204 No Content, so return success message
-  return { success: true, message: `Tag ${tagId} deleted successfully` };
+  return { deleted: true };
 }
 

@@ -14,7 +14,7 @@ type BaseFieldOptions = {
   typeOptions?: INodeProperties['typeOptions'];
   modes?: INodeProperties['modes'];
   // Common to some, but optional
-  optionsList?: { name: string; value: string | number; description?: string }[];
+  optionsList?: { name: string; value: string | number; description?: string; action?: string }[];
   options?: INodeProperties['options'];
   noDataExpression?: boolean;
 };

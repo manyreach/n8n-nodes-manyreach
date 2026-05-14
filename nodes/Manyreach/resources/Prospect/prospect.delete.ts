@@ -6,6 +6,6 @@ export async function deleteProspect(this: IExecuteFunctions, index: number) {
   const resourceLocator = this.getNodeParameter('prospectId', index) as unknown;
   const id = extractResourceId(resourceLocator);
 
-  const response = await apiRequest.call(this, 'DELETE', `/prospects/${id}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/prospects/${id}`);
+  return { deleted: true };
 }

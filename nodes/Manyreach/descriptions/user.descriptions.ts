@@ -20,11 +20,11 @@ export const userOperations: INodeProperties[] = [
         resource: 'user',
         default: '',
         optionsList: [
-            { name: 'Get Many', value: 'getMany' },
-            { name: 'Create', value: 'create' },
-            { name: 'Get', value: 'getById' },
-            { name: 'Delete', value: 'delete' },
-            { name: 'Update', value: 'update' }
+            { name: 'Create', value: 'create', action: 'Create user', description: 'Create a new user' },
+            { name: 'Delete', value: 'delete', action: 'Delete user', description: 'Delete a user permanently' },
+            { name: 'Get', value: 'getById', action: 'Get user', description: 'Retrieve a user' },
+            { name: 'Get Many', value: 'getMany', action: 'Get many users', description: 'Retrieve a list of users' },
+            { name: 'Update', value: 'update', action: 'Update user', description: 'Update a user' },
         ],
     }),
 ];
@@ -64,6 +64,16 @@ export const userFields: INodeProperties[] = [
     }),
 
     createField({
+        displayName: 'Simplify',
+        name: 'simplify',
+        type: 'boolean',
+        default: true,
+        description: 'Whether to return a simplified version of the response instead of the raw data',
+        resource: 'user',
+        operations: ['getMany'],
+    }),
+
+    createField({
         displayName: 'User',
         name: 'userId',
         type: 'resourceLocator',
@@ -87,12 +97,12 @@ export const userFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter user ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
                         properties: {
-                            regex: '^\\\\d+$',
+                            regex: '^\\d+$',
                             errorMessage: 'Only numeric IDs are allowed',
                         },
                     },
@@ -105,7 +115,7 @@ export const userFields: INodeProperties[] = [
         displayName: 'Email',
         name: 'email',
         type: 'string',
-								placeholder: 'name@email.com',
+								placeholder: 'e.g. nathan@example.com',
         default: '',
         required: true,
         resource: 'user',

@@ -6,6 +6,6 @@ export async function deleteUser(this: IExecuteFunctions, index: number) {
   const resourceLocator = this.getNodeParameter('userId', index) as unknown;
   const id = extractResourceId(resourceLocator);
 
-  const response = await apiRequest.call(this, 'DELETE', `/users/${id}`);
-  return response;
+  await apiRequest.call(this, 'DELETE', `/users/${id}`);
+  return { deleted: true };
 }

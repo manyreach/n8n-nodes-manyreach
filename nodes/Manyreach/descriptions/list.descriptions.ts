@@ -10,11 +10,11 @@ export const listOperations: INodeProperties[] = [
     resource: 'list',
     default: '',
     optionsList: [
-      { name: 'Get Many', value: 'getMany' },
-      { name: 'Create', value: 'create' },
-      { name: 'Get', value: 'getById' },
-      { name: 'Update', value: 'update' },
-      { name: 'Delete', value: 'delete' },
+      { name: 'Create', value: 'create', action: 'Create list', description: 'Create a new list' },
+      { name: 'Delete', value: 'delete', action: 'Delete list', description: 'Delete a list permanently' },
+      { name: 'Get', value: 'getById', action: 'Get list', description: 'Retrieve a list' },
+      { name: 'Get Many', value: 'getMany', action: 'Get many lists', description: 'Retrieve all lists' },
+      { name: 'Update', value: 'update', action: 'Update list', description: 'Update a list' },
     ],
   }),
 ];
@@ -51,7 +51,17 @@ export const listFields: INodeProperties[] = [
     resource: 'list',
     operations: ['getMany'],
   }),
-  
+
+  createField({
+    displayName: 'Simplify',
+    name: 'simplify',
+    type: 'boolean',
+    default: true,
+    description: 'Whether to return a simplified version of the response instead of the raw data',
+    resource: 'list',
+    operations: ['getMany'],
+  }),
+
   createField({
     displayName: 'List',
     name: 'listId',
@@ -76,12 +86,12 @@ export const listFields: INodeProperties[] = [
         displayName: 'By ID',
         name: 'id',
         type: 'string',
-        placeholder: 'Enter list ID',
+        placeholder: 'e.g. 1234',
         validation: [
           {
             type: 'regex',
             properties: {
-              regex: '^\\\\d+$',
+              regex: '^\\d+$',
               errorMessage: 'Only numeric IDs are allowed',
             },
           },

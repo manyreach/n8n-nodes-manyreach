@@ -4,44 +4,44 @@ import { createField } from './common/fields';
 const messageTypes = [
     { name: 'Sent', value: 'Sent' },
     { name: 'Reply', value: 'Reply' },
-    { name: 'SentManual', value: 'SentManual' },
+    { name: 'Sent Manual', value: 'SentManual' },
 ];
 
 const confirmStatus = [
   { name: 'Unknown', value: 'Unknown' },
-  { name: 'EspMatchNotFound', value: 'EspMatchNotFound' },
-  { name: 'EspNotAllowed', value: 'EspNotAllowed' },
-  { name: 'NoWarmup', value: 'NoWarmup' },
-  { name: 'NotReceiving', value: 'NotReceiving' },
-  { name: 'WarmupLimits', value: 'WarmupLimits' },
-  { name: 'SendingLimits', value: 'SendingLimits' },
-  { name: 'NoSender', value: 'NoSender' },
+  { name: 'ESP Match Not Found', value: 'EspMatchNotFound' },
+  { name: 'ESP Not Allowed', value: 'EspNotAllowed' },
+  { name: 'No Warmup', value: 'NoWarmup' },
+  { name: 'Not Receiving', value: 'NotReceiving' },
+  { name: 'Warmup Limits', value: 'WarmupLimits' },
+  { name: 'Sending Limits', value: 'SendingLimits' },
+  { name: 'No Sender', value: 'NoSender' },
   { name: 'Stuck', value: 'Stuck' },
-  { name: 'MailboxInexistent', value: 'MailboxInexistent' },
-  { name: 'EmptySubject', value: 'EmptySubject' },
-  { name: 'EmptyBody', value: 'EmptyBody' },
-  { name: 'MissingPlaceholder', value: 'MissingPlaceholder' },
+  { name: 'Mailbox Inexistent', value: 'MailboxInexistent' },
+  { name: 'Empty Subject', value: 'EmptySubject' },
+  { name: 'Empty Body', value: 'EmptyBody' },
+  { name: 'Missing Placeholder', value: 'MissingPlaceholder' },
   { name: 'Invalid', value: 'Invalid' },
   { name: 'Blacklisted', value: 'Blacklisted' },
   { name: 'Stopped', value: 'Stopped' },
   { name: 'Unsub', value: 'Unsub' },
-  { name: 'BounceHard', value: 'BounceHard' },
-  { name: 'BounceSoft', value: 'BounceSoft' },
-  { name: 'AutoNolonger', value: 'AutoNolonger' },
-  { name: 'AutoOoo', value: 'AutoOoo' },
-  { name: 'AutoReply', value: 'AutoReply' },
-  { name: 'CollegueReplied', value: 'CollegueReplied' },
-  { name: 'SenderDisconnected', value: 'SenderDisconnected' },
+  { name: 'Hard Bounce', value: 'BounceHard' },
+  { name: 'Soft Bounce', value: 'BounceSoft' },
+  { name: 'Auto No Longer', value: 'AutoNolonger' },
+  { name: 'Auto Out of Office', value: 'AutoOoo' },
+  { name: 'Auto Reply', value: 'AutoReply' },
+  { name: 'Colleague Replied', value: 'CollegueReplied' },
+  { name: 'Sender Disconnected', value: 'SenderDisconnected' },
   { name: 'Paused', value: 'Paused' },
-  { name: 'InsufficientCredit', value: 'InsufficientCredit' },
-  { name: 'ScheduleInactive', value: 'ScheduleInactive' },
-  { name: 'NotInterested', value: 'NotInterested' },
-  { name: 'NotSet', value: 'NotSet' },
+  { name: 'Insufficient Credit', value: 'InsufficientCredit' },
+  { name: 'Schedule Inactive', value: 'ScheduleInactive' },
+  { name: 'Not Interested', value: 'NotInterested' },
+  { name: 'Not Set', value: 'NotSet' },
   { name: 'Neutral', value: 'Neutral' },
-  { name: 'MaybeLater', value: 'MaybeLater' },
+  { name: 'Maybe Later', value: 'MaybeLater' },
   { name: 'Interested', value: 'Interested' },
-  { name: 'MeetingBooked', value: 'MeetingBooked' },
-  { name: 'MeetingCompleted', value: 'MeetingCompleted' },
+  { name: 'Meeting Booked', value: 'MeetingBooked' },
+  { name: 'Meeting Completed', value: 'MeetingCompleted' },
   { name: 'Won', value: 'Won' },
   { name: 'Subbed', value: 'Subbed' }
 ];
@@ -56,8 +56,8 @@ export const messageOperations: INodeProperties[] = [
         resource: 'message',
         default: '',
         optionsList: [
-            { name: 'Create', value: 'create' },
-            { name: 'Get Message', value: 'getMessage' },
+            { name: 'Create', value: 'create', action: 'Create message', description: 'Create a new message' },
+            { name: 'Get', value: 'getMessage', action: 'Get message', description: 'Retrieve a message' },
         ],
     }),
 ];
@@ -120,12 +120,12 @@ export const messageFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter campaign ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
                         properties: {
-                            regex: '^\\\\d+$',
+                            regex: '^\\d+$',
                             errorMessage: 'Only numeric IDs are allowed',
                         },
                     },
@@ -158,12 +158,12 @@ export const messageFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter sender ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
                         properties: {
-                            regex: '^\\\\d+$',
+                            regex: '^\\d+$',
                             errorMessage: 'Only numeric IDs are allowed',
                         },
                     },
@@ -196,7 +196,7 @@ export const messageFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter sequence ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
@@ -234,7 +234,7 @@ export const messageFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'Enter followup ID',
+                placeholder: 'e.g. 1234',
                 validation: [
                     {
                         type: 'regex',
@@ -325,7 +325,7 @@ export const messageFields: INodeProperties[] = [
     { displayName: 'Cc Emails', name: 'ccEmails', type: 'string', default: '' },
     { displayName: 'From Email', name: 'fromEmail', type: 'string', default: '' },
     { displayName: 'Reply To Email', name: 'replyToEmail', type: 'string', default: '' },
-    { displayName: 'Send As Reply', name: 'sendAsReply', type: 'boolean', default: false },
+    { displayName: 'Send As Reply', name: 'sendAsReply', type: 'boolean', default: false, description: 'Whether to send this message as a reply' },
     { displayName: 'Subject', name: 'subject', type: 'string', default: '' }
     ],
   }
