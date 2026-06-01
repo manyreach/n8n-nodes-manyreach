@@ -14,16 +14,19 @@ export async function getCampaigns(this: IExecuteFunctions, index: number) {
   const normalized = normalizeManyResponse(response);
   return simplify
     ? simplifyItems(normalized, [
-        'id',
+        'campaignId',
         'name',
         'status',
+        'createdAt',
         'fromName',
         'subject',
+        'prospectCount',
         'sentCount',
         'openCount',
+        'clickCount',
         'replyCount',
-        'createdAt',
-        'updatedAt',
+        'bounceCount',
+        'conversionCount',
       ])
     : normalized;
 }

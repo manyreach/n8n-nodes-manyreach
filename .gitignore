@@ -10,6 +10,7 @@ nodes/Manyreach/helpers/build-info.ts
 .env
 .env.local
 .env.*.local
+.mcp.json
 
 # logs
 npm-debug.log*
