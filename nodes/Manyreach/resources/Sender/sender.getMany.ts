@@ -31,12 +31,14 @@ export async function getSenders(this: IExecuteFunctions, index: number) {
     const normalized = normalizeManyResponse(response);
     return simplify
         ? simplifyItems(normalized, [
-              'id',
-              'fromEmail',
+              'senderId',
+              'email',
               'fromName',
-              'dailySendingLimit',
+              'accountType',
+              'folder',
+              'dailyLimit',
               'warmup',
-              'status',
+              'disconnected',
               'createdAt',
           ])
         : normalized;

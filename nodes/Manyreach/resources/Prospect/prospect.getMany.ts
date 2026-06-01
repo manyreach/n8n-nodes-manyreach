@@ -57,13 +57,14 @@ export async function getProspects(this: IExecuteFunctions, index: number) {
     const normalized = normalizeManyResponse(response);
     return simplify
         ? simplifyItems(normalized, [
-              'id',
+              'prospectId',
               'email',
               'firstName',
               'lastName',
               'company',
               'jobPosition',
               'sendingStatus',
+              'sendingActive',
               'createdAt',
           ])
         : normalized;
