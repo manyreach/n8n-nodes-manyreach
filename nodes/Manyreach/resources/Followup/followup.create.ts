@@ -9,7 +9,12 @@ export async function createFollowupsSequence(this: IExecuteFunctions, index: nu
     ensureId(sequenceId);
 
     const body: IDataObject = {};
+    const subject = this.getNodeParameter('subject', index) as string;
+    const followupBody = this.getNodeParameter('body', index) as string;
     const additionalFields = this.getNodeParameter('additionalFields', index, {}) as IDataObject;
+
+    body.subject = subject;
+    body.body = followupBody;
 
     if (additionalFields.waitUnits !== undefined) {
         body.waitUnits = additionalFields.waitUnits;
