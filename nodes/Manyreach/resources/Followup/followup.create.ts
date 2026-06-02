@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { extractNumericId, ensureId } from '../../helpers/validation';
 import { mapAdditionalFields } from '../../helpers/mapping.helper';
@@ -14,13 +14,13 @@ export async function createFollowupsSequence(this: IExecuteFunctions, index: nu
     if (additionalFields.waitUnits !== undefined) {
         body.waitUnits = additionalFields.waitUnits;
     } else {
-        throw new Error('Wait Units is required');
+        throw new NodeOperationError(this.getNode(), 'The "Wait Units" parameter is required to create a followup.', { itemIndex: index });
     }
 
     if (additionalFields.waitMin !== undefined) {
         body.waitMin = additionalFields.waitMin;
     } else {
-        throw new Error('Wait Min is required');
+        throw new NodeOperationError(this.getNode(), 'The "Wait Min" parameter is required to create a followup.', { itemIndex: index });
     }
 
     mapAdditionalFields(additionalFields, body, ['waitUnits', 'waitMin']);

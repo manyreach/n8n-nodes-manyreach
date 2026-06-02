@@ -10,11 +10,13 @@ export const senderOperations: INodeProperties[] = [
         resource: 'sender',
         default: '',
         optionsList: [
+            { name: 'Add Tag', value: 'addTag', action: 'Add tag to sender', description: 'Add a tag to a sender' },
             { name: 'Create', value: 'create', action: 'Create sender', description: 'Create a new sender' },
             { name: 'Delete', value: 'delete', action: 'Delete sender', description: 'Delete a sender permanently' },
             { name: 'Get', value: 'getById', action: 'Get sender', description: 'Retrieve a sender' },
             { name: 'Get Errors', value: 'getErrors', action: 'Get sender authentication errors', description: 'Retrieve DKIM, SPF, and DMARC authentication errors for a sender' },
             { name: 'Get Many', value: 'getMany', action: 'Get many senders', description: 'Retrieve a list of senders' },
+            { name: 'Remove Tag', value: 'removeTag', action: 'Remove tag from sender', description: 'Remove a tag from a sender' },
             { name: 'Update', value: 'update', action: 'Update sender', description: 'Update a sender' },
         ],
     }),
@@ -29,7 +31,7 @@ export const senderFields: INodeProperties[] = [
         default: { mode: 'list', value: '' },
         description: 'Select a sender from the list or enter its ID',
         resource: 'sender',
-        operations: ['getById', 'update', 'delete', 'getErrors'],
+        operations: ['getById', 'update', 'delete', 'getErrors', 'addTag', 'removeTag'],
         modes: [
             {
                 displayName: 'From list',
@@ -327,4 +329,43 @@ export const senderFields: INodeProperties[] = [
             { displayName: 'Warmup Skip Weekends', name: 'warmupSkipWeekends', type: 'boolean', default: false, description: 'Whether to skip weekends during the warmup period' }
         ],
     },
+
+    createField({
+        displayName: 'Tag',
+        name: 'tagId',
+        type: 'resourceLocator',
+        default: { mode: 'list', value: '' },
+        description: 'Select a tag from the list or enter its ID',
+        resource: 'sender',
+        operations: ['addTag', 'removeTag'],
+        modes: [
+            {
+                displayName: 'From list',
+                name: 'list',
+                type: 'list',
+                placeholder: 'Select a tag...',
+                typeOptions: {
+                    searchListMethod: 'searchTags',
+                    searchable: true,
+                    searchFilterRequired: false,
+                },
+            },
+            {
+                displayName: 'By ID',
+                name: 'id',
+                type: 'string',
+                placeholder: 'e.g. 1234',
+                validation: [
+                    {
+                        type: 'regex',
+                        properties: {
+                            regex: '^\\d+$',
+                            errorMessage: 'Only numeric IDs are allowed',
+                        },
+                    },
+                ],
+            },
+        ],
+        required: true,
+    }),
 ];

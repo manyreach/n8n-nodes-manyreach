@@ -10,6 +10,8 @@ export const campaignOperations: INodeProperties[] = [
     resource: 'campaign',
     default: '',
     optionsList: [
+      { name: 'Add Tag', value: 'addTag', action: 'Add tag to campaign', description: 'Add a tag to a campaign' },
+      { name: 'Archive', value: 'archive', action: 'Archive campaign', description: 'Archive a campaign' },
       { name: 'Copy', value: 'copy', action: 'Copy campaign', description: 'Copy a campaign' },
       { name: 'Create', value: 'create', action: 'Create campaign', description: 'Create a new campaign' },
       { name: 'Delete', value: 'delete', action: 'Delete campaign', description: 'Delete a campaign permanently' },
@@ -17,7 +19,10 @@ export const campaignOperations: INodeProperties[] = [
       { name: 'Get Many', value: 'getMany', action: 'Get many campaigns', description: 'Retrieve a list of campaigns' },
       { name: 'Get Statistics', value: 'getStats', action: 'Get campaign statistics', description: 'Retrieve statistics for a campaign' },
       { name: 'Pause', value: 'pause', action: 'Pause campaign', description: 'Pause a campaign' },
+      { name: 'Remove Prospect', value: 'removeProspect', action: 'Remove prospect from campaign', description: 'Remove a prospect from a campaign' },
+      { name: 'Remove Tag', value: 'removeTag', action: 'Remove tag from campaign', description: 'Remove a tag from a campaign' },
       { name: 'Start', value: 'start', action: 'Start campaign', description: 'Start a campaign' },
+      { name: 'Unarchive', value: 'unarchive', action: 'Unarchive campaign', description: 'Unarchive a campaign' },
       { name: 'Update', value: 'update', action: 'Update campaign', description: 'Update a campaign' },
     ],
   }),
@@ -69,13 +74,43 @@ export const campaignFields: INodeProperties[] = [
   }),
 
   createField({
+    displayName: 'Include Archived',
+    name: 'includeArchived',
+    type: 'boolean',
+    default: false,
+    description: 'Whether to include archived campaigns in the results',
+    resource: 'campaign',
+    operations: ['getMany'],
+  }),
+
+  createField({
+    displayName: 'Status',
+    name: 'status',
+    type: 'options',
+    options: [
+      { name: 'Any', value: '' },
+      { name: 'Running', value: 'running' },
+      { name: 'Paused', value: 'paused' },
+      { name: 'Draft', value: 'draft' },
+      { name: 'Completed', value: 'completed' },
+      { name: 'Archived', value: 'archived' },
+      { name: 'Scheduled', value: 'scheduled' },
+      { name: 'Preparing', value: 'preparing' },
+    ],
+    default: '',
+    description: 'Filter campaigns by status',
+    resource: 'campaign',
+    operations: ['getMany'],
+  }),
+
+  createField({
     displayName: 'Campaign',
     name: 'campaignId',
     type: 'resourceLocator',
     default: { mode: 'list', value: '' },
     description: 'Select a campaign from the list or enter its ID',
     resource: 'campaign',
-    operations: ['getById', 'delete', 'update', 'start', 'pause', 'getSequences', 'createSequences', 'copy', 'getStats'],
+    operations: ['getById', 'delete', 'update', 'start', 'pause', 'getSequences', 'createSequences', 'copy', 'getStats', 'archive', 'unarchive', 'removeProspect', 'addTag', 'removeTag'],
     modes: [
       {
         displayName: 'From list',
@@ -314,4 +349,80 @@ export const campaignFields: INodeProperties[] = [
       { displayName: 'Use Prospects Time Zone', name: 'useProspectsTimeZone', type: 'boolean', default: false, description: 'Whether to send emails according to each prospect\'s local time zone' }
     ],
   },
+
+  createField({
+    displayName: 'Prospect',
+    name: 'prospectId',
+    type: 'resourceLocator',
+    default: { mode: 'list', value: '' },
+    description: 'Select a prospect from the list or enter its ID',
+    resource: 'campaign',
+    operations: ['removeProspect'],
+    modes: [
+      {
+        displayName: 'From list',
+        name: 'list',
+        type: 'list',
+        placeholder: 'Select a prospect...',
+        typeOptions: {
+          searchListMethod: 'searchProspects',
+          searchable: true,
+          searchFilterRequired: false,
+        },
+      },
+      {
+        displayName: 'By ID',
+        name: 'id',
+        type: 'string',
+        placeholder: 'e.g. 1234',
+        validation: [
+          {
+            type: 'regex',
+            properties: {
+              regex: '^\\d+$',
+              errorMessage: 'Only numeric IDs are allowed',
+            },
+          },
+        ],
+      },
+    ],
+  }),
+
+  createField({
+    displayName: 'Tag',
+    name: 'tagId',
+    type: 'resourceLocator',
+    default: { mode: 'list', value: '' },
+    description: 'Select a tag from the list or enter its ID',
+    resource: 'campaign',
+    operations: ['addTag', 'removeTag'],
+    modes: [
+      {
+        displayName: 'From list',
+        name: 'list',
+        type: 'list',
+        placeholder: 'Select a tag...',
+        typeOptions: {
+          searchListMethod: 'searchTags',
+          searchable: true,
+          searchFilterRequired: false,
+        },
+      },
+      {
+        displayName: 'By ID',
+        name: 'id',
+        type: 'string',
+        placeholder: 'e.g. 1234',
+        validation: [
+          {
+            type: 'regex',
+            properties: {
+              regex: '^\\d+$',
+              errorMessage: 'Only numeric IDs are allowed',
+            },
+          },
+        ],
+      },
+    ],
+  }),
 ];

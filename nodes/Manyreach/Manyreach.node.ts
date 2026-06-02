@@ -16,6 +16,7 @@ import { sequenceOperations, sequenceFields } from './descriptions/sequence.desc
 import { listOperations, listFields } from './descriptions/list.descriptions';
 import { prospectOperations, prospectFields } from './descriptions/prospect.descriptions';
 import { tagOperations, tagFields } from './descriptions/tag.descriptions';
+import { blacklistOperations, blacklistFields } from './descriptions/blacklist.descriptions';
 import { workspaceOperations, workspaceFields } from './descriptions/workspace.descriptions';
 import { senderOperations , senderFields } from './descriptions/sender.descriptions';
 import { userOperations, userFields } from './descriptions/user.descriptions';
@@ -51,6 +52,7 @@ import { executeUser } from './execute/user.exec';
 import { executeClientspace } from './execute/clientspace.exec';
 import { executeWhitelabel } from './execute/whitelabel.exec';
 import { executeMessage } from './execute/message.exec';
+import { executeBlacklist } from './execute/blacklist.exec';
 
 export class Manyreach implements INodeType {
   
@@ -87,6 +89,7 @@ export class Manyreach implements INodeType {
 								noDataExpression: true,
         default: 'campaign',
         options: [
+          { name: 'Blacklist', value: 'blacklist' },
           { name: 'Campaign', value: 'campaign' },
           { name: 'Clientspace', value: 'clientspace' },
           { name: 'Followup', value: 'followup' },
@@ -114,6 +117,8 @@ export class Manyreach implements INodeType {
       ...prospectFields,
       ...tagOperations,
       ...tagFields,
+      ...blacklistOperations,
+      ...blacklistFields,
       ...workspaceOperations,
       ...workspaceFields,
       ...userOperations,
@@ -205,6 +210,9 @@ export class Manyreach implements INodeType {
         }
         else if (resource === 'message') {
           data = await executeMessage.call(this, operation, i);
+        }
+        else if (resource === 'blacklist') {
+          data = await executeBlacklist.call(this, operation, i);
         }
         else {
           throw new NodeOperationError(

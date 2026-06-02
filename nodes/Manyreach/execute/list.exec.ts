@@ -4,7 +4,7 @@ import { createList } from '../resources/List/list.create';
 import { updateList } from '../resources/List/list.update';
 import { deleteList } from '../resources/List/list.delete';
 import { getLists } from '../resources/List/list.getMany';
-
+import { removeProspectFromList } from '../resources/List/list.removeProspect';
 
 export async function executeList(this: IExecuteFunctions, operation: string, i: number): Promise<unknown> {
   switch (operation) {
@@ -18,6 +18,8 @@ export async function executeList(this: IExecuteFunctions, operation: string, i:
       return await updateList.call(this, i);
     case 'delete':
       return await deleteList.call(this, i);
+    case 'removeProspect':
+      return await removeProspectFromList.call(this, i);
     default:
       throw new Error(`Operation "${operation}" not supported for List`);
   }

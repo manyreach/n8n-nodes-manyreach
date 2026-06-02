@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 
 export async function createList(this: IExecuteFunctions, index: number) {
@@ -10,7 +10,7 @@ export async function createList(this: IExecuteFunctions, index: number) {
     body.title = title;
   }
   else{
-    throw new Error('The "title" field is required to create a list.');
+    throw new NodeOperationError(this.getNode(), 'The "Title" parameter is required to create a list.', { itemIndex: index });
   }
   const folderId = this.getNodeParameter('folderId', index) as string;
   if (folderId) {

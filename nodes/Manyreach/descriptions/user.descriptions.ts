@@ -87,16 +87,7 @@ export const userFields: INodeProperties[] = [
                 displayName: 'By ID',
                 name: 'id',
                 type: 'string',
-                placeholder: 'e.g. 1234',
-                validation: [
-                    {
-                        type: 'regex',
-                        properties: {
-                            regex: '^\\d+$',
-                            errorMessage: 'Only numeric IDs are allowed',
-                        },
-                    },
-                ],
+                placeholder: 'e.g. 123e4567-e89b-12d3-a456-426614174000',
             },
         ],
     }),

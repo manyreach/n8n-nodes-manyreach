@@ -38,12 +38,13 @@ export const sequenceOperations: INodeProperties[] = [
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
-								noDataExpression: true,
+        noDataExpression: true,
         resource: 'sequence',
         default: '',
         optionsList: [
             { name: 'Create', value: 'create', action: 'Create sequence', description: 'Create a new sequence' },
             { name: 'Delete', value: 'delete', action: 'Delete sequence', description: 'Delete a sequence permanently' },
+            { name: 'Get Followups', value: 'getFollowups', action: 'Get followups for sequence', description: 'Retrieve followup steps of a sequence' },
             { name: 'Get Many', value: 'getMany', action: 'Get many sequences', description: 'Retrieve a list of sequences' },
             { name: 'Update', value: 'update', action: 'Update sequence', description: 'Update a sequence' },
         ],
@@ -98,7 +99,7 @@ export const sequenceFields: INodeProperties[] = [
         default: { mode: 'list', value: '' },
         description: 'Select a sequence from the chosen campaign',
         resource: 'sequence',
-        operations: ['update', 'delete'],
+        operations: ['getFollowups', 'update', 'delete'],
         modes: [
             {
                 displayName: 'From list',

@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { mapAdditionalFields } from '../../helpers/mapping.helper';
 
@@ -8,10 +8,10 @@ export async function createCampaign(this: IExecuteFunctions, index: number) {
   // Required fields
   const name = this.getNodeParameter('name', index) as string;
 
-  if (name !== undefined) {
+  if (name) {
     body.name = name;
   } else {
-    throw new Error('The "name" field is required.');
+    throw new NodeOperationError(this.getNode(), 'The "Name" parameter is required to create a campaign.', { itemIndex: index });
   }
 
   // Optional fields

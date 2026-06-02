@@ -198,7 +198,7 @@ export const prospectFields: INodeProperties[] = [
         name: 'listId',
         type: 'resourceLocator',
         default: { mode: 'list', value: '' },
-        description: 'Select a list from the list or enter its ID',
+        description: 'Select a list from the list or enter its ID (optional)',
         resource: 'prospect',
         operations: ['bulk', 'create', 'update'],
         modes: [

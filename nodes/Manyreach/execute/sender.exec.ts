@@ -5,7 +5,8 @@ import { createSender } from '../resources/Sender/sender.create';
 import { updateSender } from '../resources/Sender/sender.update';
 import { deleteSender } from '../resources/Sender/sender.delete';
 import { getErrorsSender } from '../resources/Sender/sender.getErrors';
-
+import { addTagToSender } from '../resources/Sender/sender.addTag';
+import { removeTagFromSender } from '../resources/Sender/sender.removeTag';
 
 export async function executeSender(this: IExecuteFunctions, operation: string, i: number): Promise<unknown> {
     switch (operation) {
@@ -21,6 +22,10 @@ export async function executeSender(this: IExecuteFunctions, operation: string, 
             return await deleteSender.call(this, i);
         case 'getErrors':
             return await getErrorsSender.call(this, i);
+        case 'addTag':
+            return await addTagToSender.call(this, i);
+        case 'removeTag':
+            return await removeTagFromSender.call(this, i);
         default:
             throw new Error(`Operation "${operation}" not supported for Sender`);
     }

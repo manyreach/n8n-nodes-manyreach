@@ -33,6 +33,8 @@ export async function getSenders(this: IExecuteFunctions, index: number) {
         ? simplifyItems(normalized, [
               'senderId',
               'email',
+              'senderId',
+              'email',
               'fromName',
               'accountType',
               'folder',
@@ -40,6 +42,8 @@ export async function getSenders(this: IExecuteFunctions, index: number) {
               'warmup',
               'disconnected',
               'createdAt',
+              'lastName',
+              'accountType'
           ])
         : normalized;
 }

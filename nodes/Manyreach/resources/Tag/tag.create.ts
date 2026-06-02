@@ -8,11 +8,13 @@ export async function createTag(this: IExecuteFunctions, index: number) {
   // Get required field
   const title = this.getNodeParameter('title', index) as string;
   
-  // Get optional field
+  // Get optional fields
   const description = this.getNodeParameter('description', index, '') as string;
+  const tagType = this.getNodeParameter('tagType', index, 'Crm') as string;
 
   // Build request body
   body.Title = title.trim();
+  body.TagType = tagType;
   
   if (description && description.trim() !== '') {
     body.Description = description.trim();

@@ -14,6 +14,7 @@ export const listOperations: INodeProperties[] = [
       { name: 'Delete', value: 'delete', action: 'Delete list', description: 'Delete a list permanently' },
       { name: 'Get', value: 'getById', action: 'Get list', description: 'Retrieve a list' },
       { name: 'Get Many', value: 'getMany', action: 'Get many lists', description: 'Retrieve all lists' },
+      { name: 'Remove Prospect', value: 'removeProspect', action: 'Remove prospect from list', description: 'Remove a prospect from a list' },
       { name: 'Update', value: 'update', action: 'Update list', description: 'Update a list' },
     ],
   }),
@@ -59,7 +60,7 @@ export const listFields: INodeProperties[] = [
     default: { mode: 'list', value: '' },
     description: 'Select a list from the list or enter its ID',
     resource: 'list',
-    operations: ['getById', 'update', 'delete'],
+    operations: ['getById', 'update', 'delete', 'removeProspect'],
     modes: [
       {
         displayName: 'From list',
@@ -118,4 +119,42 @@ export const listFields: INodeProperties[] = [
     operations: ['create','update'],
   }),
 
+  createField({
+    displayName: 'Prospect',
+    name: 'prospectId',
+    type: 'resourceLocator',
+    default: { mode: 'list', value: '' },
+    description: 'Select a prospect from the list or enter its ID',
+    resource: 'list',
+    operations: ['removeProspect'],
+    modes: [
+      {
+        displayName: 'From list',
+        name: 'list',
+        type: 'list',
+        placeholder: 'Select a prospect...',
+        typeOptions: {
+          searchListMethod: 'searchProspects',
+          searchable: true,
+          searchFilterRequired: false,
+        },
+      },
+      {
+        displayName: 'By ID',
+        name: 'id',
+        type: 'string',
+        placeholder: 'e.g. 1234',
+        validation: [
+          {
+            type: 'regex',
+            properties: {
+              regex: '^\\d+$',
+              errorMessage: 'Only numeric IDs are allowed',
+            },
+          },
+        ],
+      },
+    ],
+    required: true,
+  }),
 ];
