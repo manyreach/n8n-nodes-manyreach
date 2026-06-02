@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 
 export async function createWorkspace(this: IExecuteFunctions, index: number) {
@@ -8,7 +8,7 @@ export async function createWorkspace(this: IExecuteFunctions, index: number) {
     if(title) {
         body.title = title;
     }
-    else throw new Error('Title is required');
+    else throw new NodeOperationError(this.getNode(), 'The "Title" parameter is required to create a workspace.', { itemIndex: index });
 
     const response = await apiRequest.call(this, 'POST', '/workspaces', body);
     return response;

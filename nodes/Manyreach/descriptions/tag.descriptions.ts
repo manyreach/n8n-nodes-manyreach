@@ -6,15 +6,17 @@ export const tagOperations: INodeProperties[] = [
     displayName: 'Operation',
     name: 'operation',
     type: 'options',
-				noDataExpression: true,
+    noDataExpression: true,
     resource: 'tag',
     default: '',
     optionsList: [
       { name: 'Create', value: 'create', action: 'Create tag', description: 'Create a new tag' },
       { name: 'Delete', value: 'delete', action: 'Delete tag', description: 'Delete a tag permanently' },
       { name: 'Get', value: 'getById', action: 'Get tag', description: 'Retrieve a tag' },
+      { name: 'Get Campaigns', value: 'getCampaigns', action: 'Get campaigns for tag', description: 'Retrieve campaigns assigned to a tag' },
       { name: 'Get Many', value: 'getMany', action: 'Get many tags', description: 'Retrieve a list of tags' },
       { name: 'Get Prospects', value: 'getProspects', action: 'Get prospects for tag', description: 'Retrieve prospects assigned to a tag' },
+      { name: 'Get Senders', value: 'getSenders', action: 'Get senders for tag', description: 'Retrieve senders assigned to a tag' },
       { name: 'Update', value: 'update', action: 'Update tag', description: 'Update a tag' },
     ],
   }),
@@ -44,7 +46,40 @@ export const tagFields: INodeProperties[] = [
     operations: ['create'],
   }),
 
-  // Page field for Get Many and Get Tag's Prospects
+  // Tag Type field for Create
+  createField({
+    displayName: 'Tag Type',
+    name: 'tagType',
+    type: 'options',
+    options: [
+      { name: 'CRM', value: 'Crm' },
+      { name: 'Campaign', value: 'Campaign' },
+      { name: 'Sender', value: 'Sender' },
+    ],
+    default: 'Crm',
+    description: 'Tag classification: CRM, Campaign, or Sender. Defaults to CRM.',
+    resource: 'tag',
+    operations: ['create'],
+  }),
+
+  // Tag Type Filter field for Get Many
+  createField({
+    displayName: 'Tag Type',
+    name: 'tagType',
+    type: 'options',
+    options: [
+      { name: 'All', value: '' },
+      { name: 'CRM', value: 'Crm' },
+      { name: 'Campaign', value: 'Campaign' },
+      { name: 'Sender', value: 'Sender' },
+    ],
+    default: '',
+    description: 'Filter tags by type: CRM, Campaign, or Sender',
+    resource: 'tag',
+    operations: ['getMany'],
+  }),
+
+  // Page field for pagination
   createField({
     displayName: 'Page',
     name: 'page',
@@ -52,24 +87,24 @@ export const tagFields: INodeProperties[] = [
     default: 1,
     description: 'Page number for pagination',
     resource: 'tag',
-    operations: ['getMany', 'getProspects'],
+    operations: ['getMany', 'getProspects', 'getCampaigns', 'getSenders'],
   }),
 
-  // Limit field for Get Many and Get Tag's Prospects
+  // Limit field for pagination
   createField({
     displayName: 'Limit',
     name: 'limit',
     type: 'number',
-				typeOptions: {
-					minValue: 1,
-				},
+    typeOptions: {
+      minValue: 1,
+    },
     default: 50,
     description: 'Max number of results to return',
     resource: 'tag',
-    operations: ['getMany', 'getProspects'],
+    operations: ['getMany', 'getProspects', 'getCampaigns', 'getSenders'],
   }),
 
-  // Starting After field for Get Many and Get Tag's Prospects
+  // Starting After field for pagination
   createField({
     displayName: 'Starting After',
     name: 'startingAfter',
@@ -77,7 +112,7 @@ export const tagFields: INodeProperties[] = [
     default: 0,
     description: 'Cursor for next page (optional, for cursor-based pagination)',
     resource: 'tag',
-    operations: ['getMany', 'getProspects'],
+    operations: ['getMany', 'getProspects', 'getCampaigns', 'getSenders'],
   }),
 
   // Search field for Get Many only
@@ -91,18 +126,18 @@ export const tagFields: INodeProperties[] = [
     operations: ['getMany'],
   }),
 
-  // // Include Prospect Count for Get Many only
-  // createField({
-  //   displayName: 'Include Prospect Count',
-  //   name: 'includeProspectCount',
-  //   type: 'boolean',
-  //   default: false,
-  //   description: 'Whether to include the count of prospects for each tag',
-  //   resource: 'tag',
-  //   operations: ['getMany'],
-  // }),
+  // Include Prospect Count for Get Many only
+  createField({
+    displayName: 'Include Prospect Count',
+    name: 'includeProspectCount',
+    type: 'boolean',
+    default: false,
+    description: 'Whether to include the count of prospects for each tag',
+    resource: 'tag',
+    operations: ['getMany'],
+  }),
 
-  // Tag field for Get, Get Tag's Prospects, Update, and Delete
+  // Tag field for Get, Get Campaigns, Get Senders, Get Prospects, Update, and Delete
   createField({
     displayName: 'Tag',
     name: 'tagId',
@@ -111,7 +146,7 @@ export const tagFields: INodeProperties[] = [
     required: true,
     description: 'Select a tag or enter its ID',
     resource: 'tag',
-    operations: ['getById', 'getProspects', 'update', 'delete'],
+    operations: ['getById', 'getProspects', 'getCampaigns', 'getSenders', 'update', 'delete'],
     modes: [
       {
         displayName: 'From list',

@@ -1,15 +1,28 @@
 import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
-import { ensureId, extractNumericId } from '../../helpers/validation';
+import { extractNumericId } from '../../helpers/validation';
 
 export async function bulkProspect(this: IExecuteFunctions, index: number) {
 
     const rawListId = this.getNodeParameter('listId', index, undefined);
-    const listId = extractNumericId(rawListId);
-    ensureId(listId);
+    let listId: number | undefined;
+    const isListIdSet = rawListId && (
+        (typeof rawListId === 'object' && (rawListId as { value?: string | number }).value !== undefined && (rawListId as { value?: string | number }).value !== '' && (rawListId as { value?: string | number }).value !== 0) ||
+        (typeof rawListId !== 'object' && rawListId !== '' && rawListId !== 0)
+    );
+    if (isListIdSet) {
+        listId = extractNumericId(rawListId);
+    }
 
     const rawCampaignId = this.getNodeParameter('campaignId', index, undefined);
-    const campaignId = extractNumericId(rawCampaignId);
+    let campaignId: number | undefined;
+    const isCampaignIdSet = rawCampaignId && (
+        (typeof rawCampaignId === 'object' && (rawCampaignId as { value?: string | number }).value !== undefined && (rawCampaignId as { value?: string | number }).value !== '' && (rawCampaignId as { value?: string | number }).value !== 0) ||
+        (typeof rawCampaignId !== 'object' && rawCampaignId !== '' && rawCampaignId !== 0)
+    );
+    if (isCampaignIdSet) {
+        campaignId = extractNumericId(rawCampaignId);
+    }
     // Campaign ID is optional, but if present should be numeric
 
     // Check if campaignId is valid (not undefined and looks like a number)

@@ -12,7 +12,8 @@ export async function getManyTags(this: IExecuteFunctions, index: number) {
   const limit = this.getNodeParameter('limit', index, 100) as number;
   const startingAfter = this.getNodeParameter('startingAfter', index, 0) as number;
   const search = this.getNodeParameter('search', index, '') as string;
-  //const includeProspectCount = this.getNodeParameter('includeProspectCount', index, false) as boolean;
+  const tagType = this.getNodeParameter('tagType', index, '') as string;
+  const includeProspectCount = this.getNodeParameter('includeProspectCount', index, false) as boolean;
 
   ensurePagination(page, limit);
 
@@ -28,9 +29,13 @@ export async function getManyTags(this: IExecuteFunctions, index: number) {
     qs.search = search.trim();
   }
 
-  // if (includeProspectCount) {
-  //   qs.include = 'prospectCount';
-  // }
+  if (tagType && tagType !== '') {
+    qs.tagType = tagType;
+  }
+
+  if (includeProspectCount) {
+    qs.include = 'prospectCount';
+  }
 
   // Make API request
   const response = await apiRequest.call(this, 'GET', '/tags', body, qs);

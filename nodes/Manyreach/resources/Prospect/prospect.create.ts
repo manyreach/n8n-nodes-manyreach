@@ -1,6 +1,6 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
-import { ensureId, extractNumericId } from '../../helpers/validation';
+import { extractNumericId, validateEmail } from '../../helpers/validation';
 import { mapAdditionalFields } from '../../helpers/mapping.helper';
 
 export async function createProspect(this: IExecuteFunctions, index: number) {
@@ -10,14 +10,22 @@ export async function createProspect(this: IExecuteFunctions, index: number) {
   body.email = this.getNodeParameter('email', index) as string;
 
   if (!body.email) {
-    throw new Error('Email is required to create a prospect');
+    throw new NodeOperationError(this.getNode(), 'The "Email" parameter is required to create a prospect.', { itemIndex: index });
+  }
+
+  if (!validateEmail(body.email)) {
+    throw new NodeOperationError(this.getNode(), 'The "Email" parameter must be a valid email address.', { itemIndex: index });
   }
 
   const rawListId = this.getNodeParameter('listId', index, undefined);
-  const listId = extractNumericId(rawListId);
-  ensureId(listId);
+  const isListIdSet = rawListId && (
+      (typeof rawListId === 'object' && (rawListId as { value?: string | number }).value !== undefined && (rawListId as { value?: string | number }).value !== '' && (rawListId as { value?: string | number }).value !== 0) ||
+      (typeof rawListId !== 'object' && rawListId !== '' && rawListId !== 0)
+  );
 
-  body.baseListId = listId;
+  if (isListIdSet) {
+      body.baseListId = extractNumericId(rawListId);
+  }
 
   const additionalFields = this.getNodeParameter('additionalFields', index, {}) as IDataObject;
   mapAdditionalFields(additionalFields, body);
