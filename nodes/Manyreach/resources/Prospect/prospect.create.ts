@@ -19,7 +19,7 @@ export async function createProspect(this: IExecuteFunctions, index: number) {
 
   const rawListId = this.getNodeParameter('listId', index, undefined);
   const isListIdSet = rawListId && (
-      (typeof rawListId === 'object' && (rawListId as any).value !== undefined && (rawListId as any).value !== '' && (rawListId as any).value !== 0) ||
+      (typeof rawListId === 'object' && (rawListId as { value?: string | number }).value !== undefined && (rawListId as { value?: string | number }).value !== '' && (rawListId as { value?: string | number }).value !== 0) ||
       (typeof rawListId !== 'object' && rawListId !== '' && rawListId !== 0)
   );
 
