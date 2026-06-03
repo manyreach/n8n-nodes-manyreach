@@ -64,37 +64,7 @@ export const messageOperations: INodeProperties[] = [
 
 
 export const messageFields: INodeProperties[] = [
-    createField({
-        displayName: 'Page',
-        name: 'page',
-        type: 'number',
-        default: 1,
-        resource: 'message',
-        operations: ['getMessage'],
-    }),
-
-    createField({
-        displayName: 'Limit',
-        name: 'limit',
-        type: 'number',
-								typeOptions: {
-									minValue: 1,
-								},
-								description: 'Max number of results to return',
-        default: 50,
-        resource: 'message',
-        operations: ['getMessage'],
-    }),
-
-    createField({
-        displayName: 'Starting After',
-        name: 'startingAfter',
-        type: 'dateTime',
-        default: '',
-        resource: 'message',
-        operations: ['getMessage'],
-    }),
-
+    
     createField({
         displayName: 'Campaign',
         name: 'campaignId',
@@ -102,7 +72,7 @@ export const messageFields: INodeProperties[] = [
         default: { mode: 'list', value: '' },
         description: 'Select a campaign from the list or enter its ID',
         resource: 'message',
-
+        
         operations: ['getMessage'],
         modes: [
             {
@@ -133,7 +103,7 @@ export const messageFields: INodeProperties[] = [
             },
         ],
     }),
-
+    
     createField({
         displayName: 'Sender',
         name: 'senderId',
@@ -171,8 +141,8 @@ export const messageFields: INodeProperties[] = [
             },
         ],
     }),
-
-     createField({
+    
+    createField({
         displayName: 'Sequence',
         name: 'sequenceId',
         type: 'resourceLocator',
@@ -209,7 +179,7 @@ export const messageFields: INodeProperties[] = [
             },
         ],
     }),
-
+    
     createField({
         displayName: 'Followup',
         name: 'followupId',
@@ -247,6 +217,48 @@ export const messageFields: INodeProperties[] = [
             },
         ],
     }),
+    
+    createField({
+        displayName: 'Message Type',
+        name: 'messageType',
+        type: 'options',
+        options: messageTypes,
+        default: '',
+        description: 'Filter messages by type',
+        resource: 'message',
+        operations: ['getMessage'],
+    }),
+    
+    createField({
+        displayName: 'Page',
+        name: 'page',
+        type: 'number',
+        default: 1,
+        resource: 'message',
+        operations: ['getMessage'],
+    }),
+
+    createField({
+        displayName: 'Limit',
+        name: 'limit',
+        type: 'number',
+        typeOptions: {
+            minValue: 1,
+        },
+        description: 'Max number of results to return',
+        default: 50,
+        resource: 'message',
+        operations: ['getMessage'],
+    }),
+
+    createField({
+        displayName: 'Starting After',
+        name: 'startingAfter',
+        type: 'dateTime',
+        default: '',
+        resource: 'message',
+        operations: ['getMessage'],
+    }),
 
     createField({
         displayName: 'Confirmed Status',
@@ -258,7 +270,7 @@ export const messageFields: INodeProperties[] = [
         resource: 'message',
         operations: ['getMessage'],
     }),
-
+    
     createField({
         displayName: 'Email From',
         name: 'emailFrom',
@@ -289,16 +301,6 @@ export const messageFields: INodeProperties[] = [
         operations: ['getMessage'],
     }),
 
-    createField({
-        displayName: 'Message Type',
-        name: 'messageType',
-        type: 'options',
-        options: messageTypes,
-        default: '',
-        description: 'Filter messages by type',
-        resource: 'message',
-        operations: ['getMessage'],
-    }),
 
     createField({
         displayName: 'Message ID',

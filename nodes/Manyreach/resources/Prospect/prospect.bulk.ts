@@ -57,57 +57,35 @@ export async function bulkProspect(this: IExecuteFunctions, index: number) {
         throw new Error('No prospects provided in the bulk list.');
     }
 
+    const removeUndefined = (obj: Record<string, unknown>) => {
+        const filtered: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(obj)) {
+            if (value !== undefined) {
+                filtered[key] = value;
+            }
+        }
+        return filtered;
+    };
+
     const body = {
         prospects: prospectsList.map((p: unknown) => {
             const prospect = p as Record<string, unknown>;
-            const prospectObj = p as Record<string, unknown>;
-            return {
-            ...prospectObj,
-            // Ensure default values if missing from UI (though UI defaults should handle it)
-            sendingStatus: prospect.sendingStatus || 'Unknown',
-            sendingActive: prospect.sendingActive !== undefined ? prospect.sendingActive : true,
-            // Map optional fields
-            industry: prospect.industry,
-            city: prospect.city,
-            website: prospect.website,
-            phone: prospect.phone,
-            firstName: prospect.firstName,
-            lastName: prospect.lastName,
-            company: prospect.company,
-            country: prospect.country,
-            domain: prospect.domain,
-            companySocial: prospect.companySocial,
-            companySize: prospect.companySize,
-            jobPosition: prospect.jobPosition,
-            location: prospect.location,
-            personalSocial: prospect.personalSocial,
-            customImageUrl: prospect.customImageUrl,
-            screenshotUrl: prospect.screenshotUrl,
-            logoUrl: prospect.logoUrl,
-            state: prospect.state,
-            icebreaker: prospect.icebreaker,
-            custom1: prospect.custom1,
-            custom2: prospect.custom2,
-            custom3: prospect.custom3,
-            custom4: prospect.custom4,
-            custom5: prospect.custom5,
-            custom6: prospect.custom6,
-            custom7: prospect.custom7,
-            custom8: prospect.custom8,
-            custom9: prospect.custom9,
-            custom10: prospect.custom10,
-            custom11: prospect.custom11,
-            custom12: prospect.custom12,
-            custom13: prospect.custom13,
-            custom14: prospect.custom14,
-            custom15: prospect.custom15,
-            custom16: prospect.custom16,
-            custom17: prospect.custom17,
-            custom18: prospect.custom18,
-            custom19: prospect.custom19,
-            custom20: prospect.custom20,
-            notes: prospect.notes
-        };
+            const additionalFields = (prospect.additionalFields ?? {}) as Record<string, unknown>;
+            const mergedProspect = {
+                ...prospect,
+                ...additionalFields,
+            };
+
+            delete mergedProspect.additionalFields;
+
+            if (mergedProspect.sendingStatus === undefined) {
+                mergedProspect.sendingStatus = 'Unknown';
+            }
+            if (mergedProspect.sendingActive === undefined) {
+                mergedProspect.sendingActive = true;
+            }
+
+            return removeUndefined(mergedProspect);
         }),
     };
 

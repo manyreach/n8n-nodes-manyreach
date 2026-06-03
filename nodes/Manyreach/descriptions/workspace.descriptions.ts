@@ -6,7 +6,7 @@ export const workspaceOperations: INodeProperties[] = [
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
-								noDataExpression: true,
+        noDataExpression: true,
         resource: 'workspace',
         default: '',
         optionsList: [
@@ -20,6 +20,44 @@ export const workspaceOperations: INodeProperties[] = [
 ];
 
 export const workspaceFields: INodeProperties[] = [
+    
+    createField({
+        displayName: 'Workspace',
+        name: 'workspaceId',
+        type: 'resourceLocator',
+        default: { mode: 'list', value: '' },
+        description: 'Select a workspace from the list or enter its ID',
+        resource: 'workspace',
+        operations: ['getById', 'update', 'delete'],
+        modes: [
+            {
+                displayName: 'From list',
+                name: 'list',
+                type: 'list',
+                placeholder: 'Select a workspace...',
+                typeOptions: {
+                    searchListMethod: 'searchWorkspaces',
+                    searchable: true,
+                    searchFilterRequired: false,
+                },
+            },
+            {
+                displayName: 'By ID',
+                name: 'id',
+                type: 'string',
+                placeholder: 'e.g. 1234',
+                validation: [
+                    {
+                        type: 'regex',
+                        properties: {
+                            regex: '^\\d+$',
+                            errorMessage: 'Only numeric IDs are allowed',
+                        },
+                    },
+                ],
+            },
+        ],
+    }),
     createField({
         displayName: 'Page',
         name: 'page',
@@ -33,10 +71,10 @@ export const workspaceFields: INodeProperties[] = [
         displayName: 'Limit',
         name: 'limit',
         type: 'number',
-								typeOptions: {
-									minValue: 1,
-								},
-								description: 'Max number of results to return',
+        typeOptions: {
+            minValue: 1,
+        },
+        description: 'Max number of results to return',
         default: 50,
         resource: 'workspace',
         operations: ['getMany'],
@@ -75,41 +113,4 @@ export const workspaceFields: INodeProperties[] = [
 
     }),
 
-    createField({
-        displayName: 'Workspace',
-        name: 'workspaceId',
-        type: 'resourceLocator',
-        default: { mode: 'list', value: '' },
-        description: 'Select a workspace from the list or enter its ID',
-        resource: 'workspace',
-        operations: ['getById', 'update', 'delete'],
-        modes: [
-            {
-                displayName: 'From list',
-                name: 'list',
-                type: 'list',
-                placeholder: 'Select a workspace...',
-                typeOptions: {
-                    searchListMethod: 'searchWorkspaces',
-                    searchable: true,
-                    searchFilterRequired: false,
-                },
-            },
-            {
-                displayName: 'By ID',
-                name: 'id',
-                type: 'string',
-                placeholder: 'e.g. 1234',
-                validation: [
-                    {
-                        type: 'regex',
-                        properties: {
-                            regex: '^\\d+$',
-                            errorMessage: 'Only numeric IDs are allowed',
-                        },
-                    },
-                ],
-            },
-        ],
-    }),
 ];
