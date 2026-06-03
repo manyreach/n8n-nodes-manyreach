@@ -358,6 +358,35 @@ export const prospectFields: INodeProperties[] = [
     },
 
     createField({
+        displayName: 'Prospect Input Mode',
+        name: 'prospectInputMode',
+        type: 'options',
+        default: 'ui',
+        resource: 'prospect',
+        operations: ['bulk'],
+        description: 'Choose whether to enter prospects manually in the UI or provide a JSON array/expression',
+        optionsList: [
+            { name: 'UI Fields', value: 'ui', description: 'Add prospects manually using the fields below' },
+            { name: 'JSON / Expression', value: 'json', description: 'Provide an array of prospects from JSON or a previous node expression' },
+        ],
+    }),
+
+    {
+        displayName: 'Prospects JSON',
+        name: 'prospectsJson',
+        type: 'json',
+        default: [],
+        description: 'Array of prospects to add. Supports expressions from previous nodes, e.g. {{ $json.prospects }}. Each prospect must include email and can include additionalFields.',
+        displayOptions: {
+            show: {
+                resource: ['prospect'],
+                operation: ['bulk'],
+                prospectInputMode: ['json'],
+            },
+        },
+    },
+
+    {
         displayName: 'Prospects',
         name: 'prospects',
         type: 'fixedCollection',
@@ -365,9 +394,14 @@ export const prospectFields: INodeProperties[] = [
         typeOptions: {
             multipleValues: true,
         },
-        resource: 'prospect',
-        operations: ['bulk'],
         description: 'List of prospects to add',
+        displayOptions: {
+            show: {
+                resource: ['prospect'],
+                operation: ['bulk'],
+                prospectInputMode: ['ui'],
+            },
+        },
         options: [
             {
                 name: 'prospectProperties',
@@ -393,7 +427,7 @@ export const prospectFields: INodeProperties[] = [
                 ],
             },
         ],
-    }),
+    },
 
     createField({
         displayName: 'Tag',

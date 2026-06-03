@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { extractNumericId } from '../../helpers/validation';
 
@@ -44,13 +44,56 @@ export async function bulkProspect(this: IExecuteFunctions, index: number) {
     qs.addOnlyIfNew = addOnlyIfNew;
     qs.notInOtherCampaign = notInOtherCampaign;
 
-    // Get the FixedCollection "prospects" -> "prospectProperties"
-    const prospectsContainer = this.getNodeParameter('prospects', index, []) as IDataObject; // { prospectProperties: [ ... ] }
+    const parseProspectsJson = (value: unknown): unknown[] => {
+        if (value === undefined || value === null || value === '') {
+            return [];
+        }
 
-    // Check structure
+        let parsed = value;
+        if (typeof value === 'string') {
+            const trimmed = value.trim();
+            if (!trimmed || trimmed === '[]') {
+                return [];
+            }
+
+            try {
+                parsed = JSON.parse(trimmed);
+            } catch (error) {
+                throw new NodeOperationError(this.getNode(), 'Prospects JSON must be valid JSON or an expression that returns an array of prospects.', {
+                    itemIndex: index,
+                    description: error instanceof Error ? error.message : undefined,
+                });
+            }
+        }
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+            const prospectObject = parsed as Record<string, unknown>;
+            if (Array.isArray(prospectObject.prospectProperties)) {
+                return prospectObject.prospectProperties;
+            }
+            if (Array.isArray(prospectObject.prospects)) {
+                return prospectObject.prospects;
+            }
+        }
+
+        throw new NodeOperationError(this.getNode(), 'Prospects JSON must be an array of prospects.', { itemIndex: index });
+    };
+
+    const prospectInputMode = this.getNodeParameter('prospectInputMode', index, 'ui') as string;
     let prospectsList: unknown[] = [];
-    if (prospectsContainer && prospectsContainer.prospectProperties && Array.isArray(prospectsContainer.prospectProperties)) {
-        prospectsList = prospectsContainer.prospectProperties;
+
+    if (prospectInputMode === 'json') {
+        const prospectsJson = this.getNodeParameter('prospectsJson', index, []) as unknown;
+        prospectsList = parseProspectsJson(prospectsJson);
+    } else {
+        const prospectsContainer = this.getNodeParameter('prospects', index, []) as IDataObject; // { prospectProperties: [ ... ] }
+        if (prospectsContainer && prospectsContainer.prospectProperties && Array.isArray(prospectsContainer.prospectProperties)) {
+            prospectsList = prospectsContainer.prospectProperties;
+        }
     }
 
     if (!prospectsList || prospectsList.length === 0) {
@@ -77,6 +120,10 @@ export async function bulkProspect(this: IExecuteFunctions, index: number) {
             };
 
             delete mergedProspect.additionalFields;
+
+            if (!mergedProspect.email) {
+                throw new NodeOperationError(this.getNode(), 'Each prospect must include an email address.', { itemIndex: index });
+            }
 
             if (mergedProspect.sendingStatus === undefined) {
                 mergedProspect.sendingStatus = 'Unknown';
