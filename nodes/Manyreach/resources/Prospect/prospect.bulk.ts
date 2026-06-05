@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from '../../helpers/apiRequest';
 import { extractNumericId } from '../../helpers/validation';
 
@@ -44,70 +44,95 @@ export async function bulkProspect(this: IExecuteFunctions, index: number) {
     qs.addOnlyIfNew = addOnlyIfNew;
     qs.notInOtherCampaign = notInOtherCampaign;
 
-    // Get the FixedCollection "prospects" -> "prospectProperties"
-    const prospectsContainer = this.getNodeParameter('prospects', index, []) as IDataObject; // { prospectProperties: [ ... ] }
+    const parseProspectsJson = (value: unknown): unknown[] => {
+        if (value === undefined || value === null || value === '') {
+            return [];
+        }
 
-    // Check structure
+        let parsed = value;
+        if (typeof value === 'string') {
+            const trimmed = value.trim();
+            if (!trimmed || trimmed === '[]') {
+                return [];
+            }
+
+            try {
+                parsed = JSON.parse(trimmed);
+            } catch (error) {
+                throw new NodeOperationError(this.getNode(), 'Prospects JSON must be valid JSON or an expression that returns an array of prospects.', {
+                    itemIndex: index,
+                    description: error instanceof Error ? error.message : undefined,
+                });
+            }
+        }
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+            const prospectObject = parsed as Record<string, unknown>;
+            if (Array.isArray(prospectObject.prospectProperties)) {
+                return prospectObject.prospectProperties;
+            }
+            if (Array.isArray(prospectObject.prospects)) {
+                return prospectObject.prospects;
+            }
+        }
+
+        throw new NodeOperationError(this.getNode(), 'Prospects JSON must be an array of prospects.', { itemIndex: index });
+    };
+
+    const prospectInputMode = this.getNodeParameter('prospectInputMode', index, 'ui') as string;
     let prospectsList: unknown[] = [];
-    if (prospectsContainer && prospectsContainer.prospectProperties && Array.isArray(prospectsContainer.prospectProperties)) {
-        prospectsList = prospectsContainer.prospectProperties;
+
+    if (prospectInputMode === 'json') {
+        const prospectsJson = this.getNodeParameter('prospectsJson', index, []) as unknown;
+        prospectsList = parseProspectsJson(prospectsJson);
+    } else {
+        const prospectsContainer = this.getNodeParameter('prospects', index, []) as IDataObject; // { prospectProperties: [ ... ] }
+        if (prospectsContainer && prospectsContainer.prospectProperties && Array.isArray(prospectsContainer.prospectProperties)) {
+            prospectsList = prospectsContainer.prospectProperties;
+        }
     }
 
     if (!prospectsList || prospectsList.length === 0) {
         throw new Error('No prospects provided in the bulk list.');
     }
 
+    const removeUndefined = (obj: Record<string, unknown>) => {
+        const filtered: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(obj)) {
+            if (value !== undefined) {
+                filtered[key] = value;
+            }
+        }
+        return filtered;
+    };
+
     const body = {
         prospects: prospectsList.map((p: unknown) => {
             const prospect = p as Record<string, unknown>;
-            const prospectObj = p as Record<string, unknown>;
-            return {
-            ...prospectObj,
-            // Ensure default values if missing from UI (though UI defaults should handle it)
-            sendingStatus: prospect.sendingStatus || 'Unknown',
-            sendingActive: prospect.sendingActive !== undefined ? prospect.sendingActive : true,
-            // Map optional fields
-            industry: prospect.industry,
-            city: prospect.city,
-            website: prospect.website,
-            phone: prospect.phone,
-            firstName: prospect.firstName,
-            lastName: prospect.lastName,
-            company: prospect.company,
-            country: prospect.country,
-            domain: prospect.domain,
-            companySocial: prospect.companySocial,
-            companySize: prospect.companySize,
-            jobPosition: prospect.jobPosition,
-            location: prospect.location,
-            personalSocial: prospect.personalSocial,
-            customImageUrl: prospect.customImageUrl,
-            screenshotUrl: prospect.screenshotUrl,
-            logoUrl: prospect.logoUrl,
-            state: prospect.state,
-            icebreaker: prospect.icebreaker,
-            custom1: prospect.custom1,
-            custom2: prospect.custom2,
-            custom3: prospect.custom3,
-            custom4: prospect.custom4,
-            custom5: prospect.custom5,
-            custom6: prospect.custom6,
-            custom7: prospect.custom7,
-            custom8: prospect.custom8,
-            custom9: prospect.custom9,
-            custom10: prospect.custom10,
-            custom11: prospect.custom11,
-            custom12: prospect.custom12,
-            custom13: prospect.custom13,
-            custom14: prospect.custom14,
-            custom15: prospect.custom15,
-            custom16: prospect.custom16,
-            custom17: prospect.custom17,
-            custom18: prospect.custom18,
-            custom19: prospect.custom19,
-            custom20: prospect.custom20,
-            notes: prospect.notes
-        };
+            const additionalFields = (prospect.additionalFields ?? {}) as Record<string, unknown>;
+            const mergedProspect = {
+                ...prospect,
+                ...additionalFields,
+            };
+
+            delete mergedProspect.additionalFields;
+
+            if (!mergedProspect.email) {
+                throw new NodeOperationError(this.getNode(), 'Each prospect must include an email address.', { itemIndex: index });
+            }
+
+            if (mergedProspect.sendingStatus === undefined) {
+                mergedProspect.sendingStatus = 'Unknown';
+            }
+            if (mergedProspect.sendingActive === undefined) {
+                mergedProspect.sendingActive = true;
+            }
+
+            return removeUndefined(mergedProspect);
         }),
     };
 

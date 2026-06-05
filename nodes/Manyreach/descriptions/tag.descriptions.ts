@@ -23,6 +23,47 @@ export const tagOperations: INodeProperties[] = [
 ];
 
 export const tagFields: INodeProperties[] = [
+
+  // Tag field for Get, Get Campaigns, Get Senders, Get Prospects, Update, and Delete
+  createField({
+    displayName: 'Tag',
+    name: 'tagId',
+    type: 'resourceLocator',
+    default: { mode: 'list', value: '' },
+    required: true,
+    description: 'Select a tag or enter its ID',
+    resource: 'tag',
+    operations: ['getById', 'getProspects', 'getCampaigns', 'getSenders', 'update', 'delete'],
+    modes: [
+      {
+        displayName: 'From list',
+        name: 'list',
+        type: 'list',
+        placeholder: 'Select a tag...',
+        typeOptions: {
+          searchListMethod: 'searchTags',
+          searchable: true,
+          searchFilterRequired: false,
+        },
+      },
+      {
+        displayName: 'By ID',
+        name: 'id',
+        type: 'string',
+        placeholder: 'e.g. 1234',
+        validation: [
+          {
+            type: 'regex',
+            properties: {
+              regex: '^\\d+$',
+              errorMessage: 'Only numeric IDs are allowed',
+            },
+          },
+        ],
+      },
+    ],
+  }),
+  
   // Title field for Create
   createField({
     displayName: 'Title',
@@ -135,46 +176,6 @@ export const tagFields: INodeProperties[] = [
     description: 'Whether to include the count of prospects for each tag',
     resource: 'tag',
     operations: ['getMany'],
-  }),
-
-  // Tag field for Get, Get Campaigns, Get Senders, Get Prospects, Update, and Delete
-  createField({
-    displayName: 'Tag',
-    name: 'tagId',
-    type: 'resourceLocator',
-    default: { mode: 'list', value: '' },
-    required: true,
-    description: 'Select a tag or enter its ID',
-    resource: 'tag',
-    operations: ['getById', 'getProspects', 'getCampaigns', 'getSenders', 'update', 'delete'],
-    modes: [
-      {
-        displayName: 'From list',
-        name: 'list',
-        type: 'list',
-        placeholder: 'Select a tag...',
-        typeOptions: {
-          searchListMethod: 'searchTags',
-          searchable: true,
-          searchFilterRequired: false,
-        },
-      },
-      {
-        displayName: 'By ID',
-        name: 'id',
-        type: 'string',
-        placeholder: 'e.g. 1234',
-        validation: [
-          {
-            type: 'regex',
-            properties: {
-              regex: '^\\d+$',
-              errorMessage: 'Only numeric IDs are allowed',
-            },
-          },
-        ],
-      },
-    ],
   }),
 
   // Force delete option for Delete operation

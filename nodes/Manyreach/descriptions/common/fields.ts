@@ -36,7 +36,7 @@ type BooleanFieldOptions = BaseFieldOptions & {
 
 type JsonFieldOptions = BaseFieldOptions & {
   type: 'json';
-  default?: Record<string, unknown>;
+  default?: Record<string, unknown> | unknown[];
 };
 
 type ResourceLocatorFieldOptions = BaseFieldOptions & {
