@@ -361,7 +361,7 @@ export const prospectFields: INodeProperties[] = [
         displayName: 'Prospect Input Mode',
         name: 'prospectInputMode',
         type: 'options',
-        default: 'ui',
+        default: '',
         resource: 'prospect',
         operations: ['bulk'],
         description: 'Choose whether to enter prospects manually in the UI or provide a JSON array/expression',
@@ -376,7 +376,7 @@ export const prospectFields: INodeProperties[] = [
         name: 'prospectsJson',
         type: 'json',
         default: [],
-        description: 'Array of prospects to add. Supports expressions from previous nodes, e.g. {{ $json.prospects }}. Each prospect must include email and can include additionalFields.',
+        description: 'Array of prospects to add. Supports expressions from previous nodes. Each prospect must include email and can include additionalFields.',
         displayOptions: {
             show: {
                 resource: ['prospect'],
