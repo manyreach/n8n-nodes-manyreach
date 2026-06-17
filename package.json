@@ -23,8 +23,8 @@
         "build": "n8n-node build",
         "build:watch": "tsc --watch",
         "dev": "n8n-node dev",
-        "lint": "n8n-node lint",
-        "lint:fix": "n8n-node lint --fix",
+        "lint": "node scripts/generate-build-info.js && n8n-node lint",
+        "lint:fix": "node scripts/generate-build-info.js && n8n-node lint --fix",
         "test": "npm run lint && npm run build",
         "release": "n8n-node release",
         "prepublishOnly": "n8n-node prerelease"

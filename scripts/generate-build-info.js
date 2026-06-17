@@ -2,7 +2,7 @@
 
 /**
  * Generates nodes/Manyreach/helpers/build-info.ts.
- * Runs via npm's `prebuild` hook.
+ * Runs before lint and via npm's `prebuild` hook.
  * Values come from env vars (Docker build / CI) with sensible fallbacks.
  */
 
