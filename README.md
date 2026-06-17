@@ -124,3 +124,4 @@ To improve this integration, the node sends anonymous technical metadata with ea
 ## License
 
 [MIT](./LICENSE.md) — © 2026 Manyreach.
+
