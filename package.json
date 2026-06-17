@@ -19,7 +19,6 @@
         "url": "git+https://github.com/manyreach/n8n-nodes-manyreach.git"
     },
     "scripts": {
-        "prepare": "node scripts/generate-build-info.js",
         "prebuild": "node scripts/generate-build-info.js",
         "build": "n8n-node build",
         "build:watch": "tsc --watch",
