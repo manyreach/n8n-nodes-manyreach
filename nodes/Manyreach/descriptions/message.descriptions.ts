@@ -226,6 +226,7 @@ export const messageFields: INodeProperties[] = [
         default: '',
         description: 'Filter messages by type',
         resource: 'message',
+        required: true,
         operations: ['getMessage'],
     }),
     
