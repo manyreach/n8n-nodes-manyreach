@@ -23,6 +23,7 @@ import { userOperations, userFields } from './descriptions/user.descriptions';
 import { clientspaceOperations, clientspaceFields } from './descriptions/clientspace.descriptions';
 import { whitelabelOperations, whitelabelFields } from './descriptions/whitelabel.descriptions';
 import { messageOperations, messageFields } from './descriptions/message.descriptions';
+import { clearApiRequestItemIndex, setApiRequestItemIndex } from './helpers/apiRequest';
 
 
 // List controller
@@ -104,6 +105,18 @@ export class Manyreach implements INodeType {
           { name: 'Workspace', value: 'workspace' },
         ],
       },
+      {
+        displayName: 'Organization ID',
+        name: 'organizationId',
+        type: 'string',
+        default: '',
+        displayOptions: {
+          hide: {
+            resource: ['workspace', 'clientspace'],
+          },
+        },
+        description: 'Optional organization identifier to send as the OrganizationID API parameter',
+      },
 
       ...campaignOperations,
       ...campaignFields,
@@ -173,6 +186,8 @@ export class Manyreach implements INodeType {
     const operation = this.getNodeParameter('operation', 0) as string;
 
     for (let i = 0; i < items.length; i++) {
+      setApiRequestItemIndex(this, i);
+
       try {
         let data;
         if (resource === 'campaign') {
@@ -218,6 +233,7 @@ export class Manyreach implements INodeType {
           throw new NodeOperationError(
             this.getNode(),
             `Resource "${resource}" not supported`,
+            { itemIndex: i },
           );
         }
 
@@ -229,7 +245,9 @@ export class Manyreach implements INodeType {
           returnData.push({ json: err, pairedItem: { item: i } });
           continue;
         }
-        throw new NodeApiError(this.getNode(), error as JsonObject);
+        throw new NodeApiError(this.getNode(), error as JsonObject, { itemIndex: i });
+      } finally {
+        clearApiRequestItemIndex(this);
       }
     }
     return this.prepareOutputData(returnData);
