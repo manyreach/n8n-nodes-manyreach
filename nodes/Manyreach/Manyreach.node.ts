@@ -60,7 +60,10 @@ export class Manyreach implements INodeType {
   description: INodeTypeDescription = {
     displayName: 'Manyreach',
     name: 'manyreach',
-    icon: 'file:manyreach_icon_white_on_black.svg',
+    icon: {
+      light: 'file:Manyreach.light.svg',
+      dark: 'file:Manyreach.svg',
+    },
     group: ['transform'],
     version: 1,
 				subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
