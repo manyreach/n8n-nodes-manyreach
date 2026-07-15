@@ -112,6 +112,7 @@ function getOrganizationId(
       organizationId = this.getCurrentNodeParameter(ORGANIZATION_ID_PARAMETER);
     }
   } catch {
+    // Organization selection is optional in contexts where the parameter is unavailable.
     return '';
   }
 
